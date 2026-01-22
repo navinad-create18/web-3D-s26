@@ -28,3 +28,17 @@ body{
   background: #1a3b05;
   text-align: center;
 }
+
+.imageBlock2{
+  border: green;
+ position: absolute;
+  margin-left:10%;
+  background: #1a3b05;
+  text-align: center;
+}
+
+.imageBlock3{
+  border: green;
+  position: absolute;
+ margin-left: 50%;
+}

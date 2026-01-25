@@ -45,6 +45,17 @@ body{
   width:50%;
   margin-top: 2%;
   margin-bottom: 2%;
+  padding: 3em;
+}
+
+.textBlock2{
+    display: flex;
+  border: 8px solid #ffd300;
+  background: #1a3b05;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding: 3em;
 }
 
 .imageBlock{
@@ -54,8 +65,6 @@ body{
   flex-direction: column;
   text-align: center;
   align-items: center;
-  
-
 }
 
 .alignDivs{
@@ -77,7 +86,10 @@ p{
     font-family: "Economica", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 25px;
-  
+  font-size: 27px;
+}
+/* restyle link color */
+a{
+  color:#5bff39
 }
 

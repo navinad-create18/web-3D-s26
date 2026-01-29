@@ -1,0 +1,95 @@
+/* heading font: Electrolize */
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+/* p tag font: Economica */
+@import url('https://fonts.googleapis.com/css2?family=Economica:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+h1{
+    background-color: #ffd300;
+    font-family: "Electrolize", sans-serif, Georgia;
+  font-weight: 100px;
+    font-size: 80px;
+  font-style: normal;
+    text-align: center;
+}
+
+h2{
+    text-align: center;
+    font-family: "Electrolize", sans-serif, Georgia;
+  font-weight: 100px;
+    font-size: 30px;
+  font-style: italic;
+}
+
+body{
+    background-color: #88ad3d;
+ 
+}
+
+.imageBlock2{
+    display: flex;
+  border: 8px solid #ffd300;
+  background: #1a3b05;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.textBlock{
+    display: flex;
+  border: 8px solid #ffd300;
+  background: #1a3b05;
+  text-align: center;
+  align-content: center;
+  width:50%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  padding: 3em;
+}
+
+.textBlock2{
+    display: flex;
+  border: 8px solid #ffd300;
+  background: #1a3b05;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding: 3em;
+}
+
+.imageBlock{
+    display: flex;
+  border: 8px solid #ffd300;
+  background: #1a3b05;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.alignDivs{
+  display:flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.alignText{
+  display:flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+
+p{
+  color:#ffd300;
+  text-align: center;
+    font-family: "Economica", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 27px;
+}
+/* restyle link color */
+a{
+  color:#5bff39
+}
+

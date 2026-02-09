@@ -1,5 +1,7 @@
 let flamingo;
 let myBubbles;
+let lightX = 300;
+let lightDir = false;
 
 let bubbleColors = [
     [19, 76, 145,70],//dark blue
@@ -25,6 +27,20 @@ function draw(){
     
     orbitControl();
     lights();
+    pointLight(122, 220, 255,lightX,0,0);
+    
+    if(lightDir) {
+        lightX++;
+        if(lightX >= 300) {
+            lightDir = false;
+        }
+    } else if(!lightDir) {
+        lightX--;
+        if(lightX <= -300) {
+            lightDir = true;
+        }
+    }
+        
     noStroke();
     
     push();

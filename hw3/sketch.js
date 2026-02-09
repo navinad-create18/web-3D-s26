@@ -29,6 +29,7 @@ function draw(){
     lights();
     pointLight(122, 220, 255,lightX,0,0);
     
+    //light animation
     if(lightDir) {
         lightX++;
         if(lightX >= 300) {

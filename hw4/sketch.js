@@ -15,7 +15,7 @@ let g = 255;
 let b = 255;
 
 function preload(){
-    pear = loadModel("./assets/Pear_modelFinal.obj", true);
+    pear = loadModel("assets/pear_modelFinal.obj", true);
     pearColor = loadImage("assets/pear_text3.png");
     woodTexture = loadImage("assets/wood_text.png");
     pano = loadImage("assets/pano_background.jpg");

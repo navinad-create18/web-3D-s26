@@ -118,7 +118,7 @@ function keyPressed(){
 }
 
 function saveScreen() {
-    save(canvas, 'Pear_Party.png');
+    save("Pear_Party.png");
 }
 
 

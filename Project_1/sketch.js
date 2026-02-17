@@ -1,6 +1,4 @@
 let oven;
-let lightX = 300;
-let lightDir = false;
 
 
 
@@ -19,20 +17,7 @@ function draw(){
     
     orbitControl();
     lights();
-    pointLight(122, 220, 255,lightX,0,0);
     
-    //light animation
-    if(lightDir) {
-        lightX++;
-        if(lightX >= 300) {
-            lightDir = false;
-        }
-    } else if(!lightDir) {
-        lightX--;
-        if(lightX <= -300) {
-            lightDir = true;
-        }
-    }
         
     noStroke();
     

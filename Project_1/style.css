@@ -31,6 +31,32 @@ p{
     font-size:20px;
 }
 
+#button-holder1{
+    display:flex;
+    position:absolute;
+    inset-inline-start: 5%;
+    inset-block-start:50%;
+}
+
+#button-holder2{
+    display:flex;
+    position:absolute;
+    inset-inline-start: 15%;
+    inset-block-start:50%;
+}
+#button-holder3{
+    display:flex;
+    position:absolute;
+    inset-inline-start: 5%;
+    inset-block-start:40%;
+}
+
+#button-holder4{
+    display:flex;
+    position:absolute;
+    inset-inline-start: 15%;
+    inset-block-start:40%;
+}
 
 a{
  color:#ff9f39;

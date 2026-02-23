@@ -1,6 +1,12 @@
 let oven;
+let ovenColor;
 
 
+function preload(){
+    oven = loadModel("assets/oven_body3.obj", true);
+    ovenColor = loadImage("assets/oven_body3Color.png");
+    
+}
 
 function setup(){
     let canvas = createCanvas(800,600,WEBGL);
@@ -8,41 +14,27 @@ function setup(){
     
     canvas.parent('sketch-holder');
     
-    oven = createOven();
 }
 
-function draw(){
-    background(194, 155, 250);
-    
-    
-    orbitControl();
-    lights();
-    
-        
-    noStroke();
-    
-    push();
-    translate(0,0,0);
-    emissiveMaterial(30,40,40);
-    specularMaterial(13, 190, 255);
-    shininess(100);
-    model(oven);
-    pop();
-    
 
+function draw(){
+    background(231, 186, 255);
+    orbitControl();
+    
+    lights();
+    createOven();
 }
 
 function createOven(){
-    beginGeometry();
-    
-    //main body
+    //oven
     push();
-    box(400,400,400);
+    translate(0,0,0);
+    scale(2);
+    noStroke();
+    rotateX(180);
+    rotateY(90);
+    texture(ovenColor); 
+    model(oven);
     pop();
-    
-    
-    
-    let shape = endGeometry();
-    return shape;
-    
 }
+

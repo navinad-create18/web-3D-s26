@@ -2,6 +2,9 @@ let oven;
 let ovenColor;
 let coil;
 
+let chicken;
+let chickenColor;
+
 let showCoil1 = false;
 let showCoil2 = false;
 let showCoil3 = false;
@@ -11,8 +14,11 @@ let showCoil4 = false;
 function preload(){
     oven = loadModel("assets/oven_body3.obj", true);
     ovenColor = loadImage("assets/oven_body3Color.png");
+    
     coil = loadModel("assets/oven_coil.obj", true);
     
+    chicken = loadModel("assets/mc_chicken.obj", true);
+    chickenColor = loadImage("assets/mc_chicken_color.png");
 
 }
 
@@ -94,6 +100,8 @@ function draw(){
     
     
     createTemp();
+    createChicken();
+    createDoor();
 }
 
 function createOven(){
@@ -132,6 +140,39 @@ function createTemp(){
     rect(70,0,50,20,10);
     rect(140,0,50,20,10);
     rect(210,0,50,20,10);
+    pop();
+}
+
+function createDoor(){
+    push();
+    noStroke();
+    fill(199, 242, 255,100);
+    translate(0,50,155);
+    box(200,220,10);
+    translate(0,120,0);
+    fill(19, 22, 82);
+    specularMaterial(150);
+    shininess(100);
+    box(300,50,15);
+    translate(125,-150,0);
+    box(50,250,15);
+    translate(-250,0,0);
+    box(50,250,15);
+    translate(125,-100,0);
+    box(300,50,15);
+    pop();
+}
+
+function createChicken(){
+    push();
+    translate(0,30,40);
+    scale(0.7);
+    noStroke();
+    rotateY(90);
+    rotateX(180);
+    emissiveMaterial(184, 118, 57);
+    texture(chickenColor);
+    model(chicken);
     pop();
 }
 

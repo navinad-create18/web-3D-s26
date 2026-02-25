@@ -100,7 +100,12 @@ function draw(){
     
     
     createTemp();
+    
+    push();
+    //rotateY(frameCount*1);
     createChicken();
+    pop();
+    
     createDoor();
 }
 
@@ -165,7 +170,7 @@ function createDoor(){
 
 function createChicken(){
     push();
-    translate(0,30,40);
+    translate(0,50,40);
     scale(0.7);
     noStroke();
     rotateY(90);

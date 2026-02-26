@@ -35,30 +35,59 @@ p{
     display:flex;
     position:absolute;
     inset-inline-start: 5%;
-    inset-block-start:50%;
+    inset-block-start:55%;
 }
 
 #button-holder2{
     display:flex;
     position:absolute;
     inset-inline-start: 15%;
-    inset-block-start:50%;
+    inset-block-start:55%;
 }
 #button-holder3{
     display:flex;
     position:absolute;
-    inset-inline-start: 5%;
+    inset-inline-start: 6%;
     inset-block-start:40%;
 }
 
 #button-holder4{
     display:flex;
     position:absolute;
-    inset-inline-start: 15%;
+    inset-inline-start: 16%;
     inset-block-start:40%;
 }
 
 a{
  color:#ff9f39;
 }
+
+#slider-holder1{
+    display:flex;
+    position:absolute;
+    inset-inline-start: 5.5%;
+    inset-block-start:65%;
+}
+
+#slider-holder2{
+    display:flex;
+    position:absolute;
+    inset-inline-start: 16%;
+    inset-block-start:65%;
+}
+
+#slider-holder3{
+    display:flex;
+    position:absolute;
+    inset-inline-start: 5.5%;
+    inset-block-start:50%;
+}
+
+#slider-holder4{
+    display:flex;
+    position:absolute;
+    inset-inline-start: 16%;
+    inset-block-start:50%;
+}
+
 

@@ -5,6 +5,22 @@ let coil;
 let chicken;
 let chickenColor;
 
+//for temperature color control
+let tempColor1;
+let tempColor2;
+let tempColor3;
+let tempColor4;
+
+//for temperature slider control/visibility
+let slider1;
+let showTemp1 = false;
+let slider2;
+let showTemp2 = false;
+let slider3;
+let showTemp3 = false;
+let slider4;
+let showTemp4 = false;
+
 let showCoil1 = false;
 let showCoil2 = false;
 let showCoil3 = false;
@@ -27,6 +43,25 @@ function setup(){
     angleMode(DEGREES);
     
     canvas.parent('sketch-holder');
+    
+  colorMode(RGB,255,255,255,255);
+  //color mode, hue, saturation, brightness, alpha
+  
+    
+  slider1 = createSlider(0,255,0,0);
+    //min value, max value, start, step 
+  slider1.parent("slider-holder1");
+    
+  slider2 = createSlider(0,255,0,0);
+  slider2.parent("slider-holder2");
+    
+  slider3 = createSlider(0,255,0,0);
+  slider3.parent("slider-holder3");
+    
+  slider4 = createSlider(0,255,0,0);
+  slider4.parent("slider-holder4");
+  
+
     
   let cButton = createButton("Bottom Left");
   cButton.parent('button-holder1');
@@ -98,8 +133,46 @@ function draw(){
        createCoil(70,-150,-70);
     }
     
+    if (showTemp1){
+      push();
+      translate(-130,-145,177);
+      noStroke();
+      emissiveMaterial(tempColor1);
+      fill(tempColor1);
+      rect(0,0,50,20,10);
+      pop();
+    }
     
-    createTemp();
+    if (showTemp2){
+      push();
+      translate(-130,-145,177);
+      noStroke();
+      emissiveMaterial(tempColor2);
+      fill(tempColor2);
+      rect(70,0,50,20,10);
+      pop();
+    }
+    
+     if (showTemp3){
+      push();
+      translate(-130,-145,177);
+      noStroke();
+      emissiveMaterial(tempColor3);
+      fill(tempColor3);
+      rect(140,0,50,20,10);
+      pop();
+    }
+    
+     if (showTemp4){
+      push();
+      translate(-130,-145,177);
+      noStroke();
+      emissiveMaterial(tempColor4);
+      fill(tempColor4);
+      rect(210,0,50,20,10);
+      pop();
+    }
+    
     
     push();
     //rotateY(frameCount*1);
@@ -107,6 +180,9 @@ function draw(){
     pop();
     
     createDoor();
+    
+    //sliders for temperature
+    createTemp();
 }
 
 function createOven(){
@@ -137,15 +213,16 @@ function createCoil(x,y,z){
 }
 
 function createTemp(){
-    push();
-    translate(-130,-145,177);
-    noStroke();
-    emissiveMaterial(255,255,255);
-    rect(0,0,50,20,10);
-    rect(70,0,50,20,10);
-    rect(140,0,50,20,10);
-    rect(210,0,50,20,10);
-    pop();
+  let gValue1 = 255-slider1.value();
+    //moves the slider from left to right based on color value
+     tempColor1 = color(255,gValue1,0);
+    //red is main color, no blue, green transitions between yellow and red
+    let gValue2 = 255-slider2.value();
+     tempColor2 = color(255,gValue2,0);
+    let gValue3 = 255-slider3.value();
+     tempColor3 = color(255,gValue3,0);
+    let gValue4 = 255-slider4.value();
+     tempColor4 = color(255,gValue4,0);
 }
 
 function createDoor(){
@@ -181,19 +258,27 @@ function createChicken(){
     pop();
 }
 
+//bottom left
 function coilVisibility1(){
     showCoil1 = !showCoil1;
+    showTemp1 = !showTemp1;
 }
 
+//bottom right
 function coilVisibility2(){
     showCoil2 = !showCoil2;
+    showTemp2 = !showTemp2;
 }
 
+//top left
 function coilVisibility3(){
     showCoil3 = !showCoil3;
+    showTemp3 = !showTemp3;
 }
 
+//top right
 function coilVisibility4(){
     showCoil4 = !showCoil4;
+    showTemp4 = !showTemp4;
 }
 

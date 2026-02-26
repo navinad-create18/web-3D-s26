@@ -26,6 +26,7 @@ let showCoil2 = false;
 let showCoil3 = false;
 let showCoil4 = false;
 
+let doorOpen = 0;
 
 function preload(){
     oven = loadModel("assets/oven_body3.obj", true);
@@ -175,9 +176,17 @@ function draw(){
     
     
     push();
-    //rotateY(frameCount*1);
     createChicken();
     pop();
+    
+    if (keyIsDown(UP_ARROW)){
+        doorOpen -= 1;
+    }
+    if (keyIsDown(DOWN_ARROW)){
+        doorOpen +=1;
+    }
+    
+    doorOpen = constrain(doorOpen,-90,0);
     
     createDoor();
     
@@ -227,9 +236,16 @@ function createTemp(){
 
 function createDoor(){
     push();
+    
+    //pivot hinge
+    translate(0,180,155);
+    rotateX(doorOpen);
+    //overall door position
+    translate(0,-130,0);
+
     noStroke();
     fill(199, 242, 255,100);
-    translate(0,50,155);
+    translate(0,0,0);
     box(200,220,10);
     translate(0,120,0);
     fill(19, 22, 82);
@@ -247,7 +263,8 @@ function createDoor(){
 
 function createChicken(){
     push();
-    translate(0,50,40);
+    translate(0,45,40);
+    //rotateY(frameCount*1);
     scale(0.7);
     noStroke();
     rotateY(90);

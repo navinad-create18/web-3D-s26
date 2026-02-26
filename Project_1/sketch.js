@@ -1,3 +1,5 @@
+
+
 let oven;
 let ovenColor;
 let coil;
@@ -5,6 +7,11 @@ let coil;
 let chicken;
 let chickenColor;
 let showChicken = false;
+
+let fish;
+let fishColor;
+let showFish = false;
+
 
 //for temperature color control
 let tempColor1;
@@ -35,8 +42,12 @@ function preload(){
     
     coil = loadModel("assets/oven_coil.obj", true);
     
-    chicken = loadModel("assets/mc_chicken.obj", true);
+    chicken = loadModel("assets/mc_food_0.obj", true);
     chickenColor = loadImage("assets/mc_chicken_color.png");
+  
+  
+    fish = loadModel("assets/mc_food_1.obj", true);
+   fishColor = loadImage("assets/mc_fish_color.png");
 
 }
 
@@ -112,7 +123,7 @@ function setup(){
     //power button
 let powerButton = createButton('');
     powerButton.parent('button-holder5');
-    powerButton.mousePressed(chickenCook);
+    powerButton.mousePressed(powerOn);
     powerButton.style('width', '100px');
     powerButton.style('height', '100px');
     powerButton.style('background-image', 'url("assets/power.png")');
@@ -120,6 +131,17 @@ let powerButton = createButton('');
     powerButton.style("background-color", "#6d024a");
     powerButton.style("border-color", "#c718af");
     powerButton.style("cursor","pointer");
+  
+let foodButton = createButton("Change Food");
+  foodButton.parent('button-holder6');
+  foodButton.mousePressed(fishCook);
+  foodButton.style("background-color", "#ffb5f5");
+  foodButton.style("padding","1em");
+  foodButton.style("cursor","pointer");
+  foodButton.style("border-color","#c718af");
+  foodButton.style('font-family','Futura');
+  foodButton.style('font-size','20px');
+  foodButton.style('color','#8a0077');
     
 }
 
@@ -190,8 +212,17 @@ function draw(){
       pop();
     }
     
-     if (showChicken){
-       createChicken();
+  if(powerOn){
+    if (showChicken){
+      createChicken();
+    }
+    else if (showFish){
+      createFish();
+    }
+  }
+  
+    if (showFish){
+      createFish();
     }
     
     if (keyIsDown(DOWN_ARROW)){
@@ -291,6 +322,20 @@ function createChicken(){
     pop();
 }
 
+function createFish(){
+  push();
+  rotateY(frameCount*1);
+  noStroke();
+  scale(0.7);
+  rotateY(90);
+  rotateX(180);
+  translate(0,-60,0);
+  emissiveMaterial(50);
+  texture(fishColor);
+  model(fish);
+  pop();
+}
+
 //bottom left
 function coilVisibility1(){
     showCoil1 = !showCoil1;
@@ -315,7 +360,14 @@ function coilVisibility4(){
     showTemp4 = !showTemp4;
 }
 
-function chickenCook(){
+
+function powerOn(){
     //show chicken
     showChicken = !showChicken;
+}
+
+function fishCook(){
+    //show fish
+    showFish = !showFish;
+  showChicken = !showChicken;
 }

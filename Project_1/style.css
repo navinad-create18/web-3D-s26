@@ -61,7 +61,14 @@ p{
 #button-holder5{
     display:flex;
     position:absolute;
-    inset-inline-start: 14%;
+    inset-inline-start: 6%;
+    inset-block-start:75%;
+}
+
+#button-holder6{
+    display:flex;
+    position:absolute;
+    inset-inline-start: 10%;
     inset-block-start:75%;
 }
 

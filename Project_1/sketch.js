@@ -4,6 +4,7 @@ let coil;
 
 let chicken;
 let chickenColor;
+let showChicken = false;
 
 //for temperature color control
 let tempColor1;
@@ -107,7 +108,18 @@ function setup(){
   cButton4.style('font-family','Futura');
   cButton4.style('font-size','20px');
   cButton4.style('color','#8a0077');
-
+    
+let powerButton = createButton('');
+    powerButton.parent('button-holder5');
+    powerButton.mousePressed(chickenCook);
+    powerButton.style('width', '100px');
+    powerButton.style('height', '100px');
+    powerButton.style('background-image', 'url("assets/power.png")');
+    powerButton.style('background-size', 'cover');
+    powerButton.style("background-color", "#6d024a");
+    powerButton.style("border-color", "#c718af");
+    powerButton.style("cursor","pointer");
+    
 }
 
 
@@ -174,15 +186,14 @@ function draw(){
       pop();
     }
     
+     if (showChicken){
+       createChicken();
+    }
     
-    push();
-    createChicken();
-    pop();
-    
-    if (keyIsDown(UP_ARROW)){
+    if (keyIsDown(DOWN_ARROW)){
         doorOpen -= 1;
     }
-    if (keyIsDown(DOWN_ARROW)){
+    if (keyIsDown(UP_ARROW)){
         doorOpen +=1;
     }
     
@@ -264,7 +275,7 @@ function createDoor(){
 function createChicken(){
     push();
     translate(0,45,40);
-    //rotateY(frameCount*1);
+    rotateY(frameCount*1);
     scale(0.7);
     noStroke();
     rotateY(90);
@@ -299,3 +310,7 @@ function coilVisibility4(){
     showTemp4 = !showTemp4;
 }
 
+function chickenCook(){
+    //show chicken
+    showChicken = !showChicken;
+}

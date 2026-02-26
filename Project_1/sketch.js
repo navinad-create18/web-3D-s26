@@ -64,7 +64,7 @@ function setup(){
   slider4.parent("slider-holder4");
   
 
-    
+  //coil buttons
   let cButton = createButton("Bottom Left");
   cButton.parent('button-holder1');
   cButton.mousePressed(coilVisibility1);
@@ -109,6 +109,7 @@ function setup(){
   cButton4.style('font-size','20px');
   cButton4.style('color','#8a0077');
     
+    //power button
 let powerButton = createButton('');
     powerButton.parent('button-holder5');
     powerButton.mousePressed(chickenCook);
@@ -133,6 +134,8 @@ function draw(){
     spotLight();
     
     createOven();
+    
+    //show coils
     if (showCoil1){
        createCoil(-70,-150,70);
     }
@@ -146,6 +149,7 @@ function draw(){
        createCoil(70,-150,-70);
     }
     
+    //show temperature front lights
     if (showTemp1){
       push();
       translate(-130,-145,177);
@@ -250,6 +254,7 @@ function createDoor(){
     
     //pivot hinge
     translate(0,180,155);
+    //rotation axis
     rotateX(doorOpen);
     //overall door position
     translate(0,-130,0);

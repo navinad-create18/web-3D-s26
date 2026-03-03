@@ -6,11 +6,12 @@ let coil;
 
 let chicken;
 let chickenColor;
-let showChicken = false;
 
 let fish;
 let fishColor;
-let showFish = false;
+
+let powerSwitch = false;
+let onFood = "chicken";
 
 
 //for temperature color control
@@ -212,17 +213,13 @@ function draw(){
       pop();
     }
     
-  if(powerOn){
-    if (showChicken){
-      createChicken();
-    }
-    else if (showFish){
-      createFish();
-    }
-  }
-  
-    if (showFish){
-      createFish();
+    if(powerSwitch){
+      if(onFood === "chicken"){
+        createChicken();
+      } else if (onFood === "fish"){
+        createFish();
+      }
+        
     }
     
     if (keyIsDown(DOWN_ARROW)){
@@ -362,12 +359,16 @@ function coilVisibility4(){
 
 
 function powerOn(){
-    //show chicken
-    showChicken = !showChicken;
+    //show food and don't show food
+    powerSwitch = !powerSwitch;
 }
 
 function fishCook(){
-    //show fish
-    showFish = !showFish;
-  showChicken = !showChicken;
+    if(powerSwitch){
+      if(onFood === "chicken"){
+        onFood = "fish";
+      }else{
+        onFood = "chicken";
+      }
+    }
 }

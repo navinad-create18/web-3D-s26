@@ -11,7 +11,7 @@ h1{
   font-weight: 400;
   font-style: normal;
   font-size: 50px;
-  text-align: center;
+    margin-bottom: 10px;
 
 }
 
@@ -21,55 +21,93 @@ canvas{
 }
 
 p{
-    text-align-last: center;
     color:#0c056f;
-    padding:15px;
-      font-family: "Quicksand", sans-serif;
+    font-family: "Quicksand", sans-serif;
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
     font-size:20px;
 }
 
+.bottomText{
+    text-align: center;
+    color:#0c056f;
+    font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+    font-size:20px;
+    margin-left:10%;
+}
+
+.leftText{
+  display: flex;
+  position: absolute;
+  gap: 60px; 
+  margin-top: 20px;
+margin-left:2%;
+    
+}
+
+.controlsText{
+    color:#0c056f;
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+    font-size:20px;
+    margin-bottom: 20px;
+}
+
+.emphasis{
+    color:#8e0058;
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+    font-size:20px;
+}
+
+
 #button-holder1{
     display:flex;
     position:absolute;
     inset-inline-start: 5%;
-    inset-block-start:55%;
+    inset-block-start:65%;
 }
 
 #button-holder2{
     display:flex;
     position:absolute;
     inset-inline-start: 15%;
-    inset-block-start:55%;
+    inset-block-start:65%;
 }
 #button-holder3{
     display:flex;
     position:absolute;
     inset-inline-start: 6%;
-    inset-block-start:40%;
+    inset-block-start:50%;
 }
 
 #button-holder4{
     display:flex;
     position:absolute;
     inset-inline-start: 16%;
-    inset-block-start:40%;
+    inset-block-start:50%;
 }
 
 #button-holder5{
     display:flex;
     position:absolute;
-    inset-inline-start: 6%;
-    inset-block-start:75%;
+    inset-inline-start: 88%;
+    inset-block-start:35%;
 }
 
 #button-holder6{
     display:flex;
     position:absolute;
-    inset-inline-start: 16%;
-    inset-block-start:75%;
+    inset-inline-start: 86%;
+    inset-block-start:55%;
 }
 
 a{
@@ -80,28 +118,28 @@ a{
     display:flex;
     position:absolute;
     inset-inline-start: 5.5%;
-    inset-block-start:65%;
+    inset-block-start:75%;
 }
 
 #slider-holder2{
     display:flex;
     position:absolute;
     inset-inline-start: 16%;
-    inset-block-start:65%;
+    inset-block-start:75%;
 }
 
 #slider-holder3{
     display:flex;
     position:absolute;
     inset-inline-start: 5.5%;
-    inset-block-start:50%;
+    inset-block-start:60%;
 }
 
 #slider-holder4{
     display:flex;
     position:absolute;
     inset-inline-start: 16%;
-    inset-block-start:50%;
+    inset-block-start:60%;
 }
 
 

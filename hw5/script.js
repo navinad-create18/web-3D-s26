@@ -49,14 +49,16 @@ function init() {
     // Add world geometry
 
     // Grouping of trees
-    const geometry = new THREE.ConeGeometry( 10, 60, 8, 1 );
+    const geometry = new THREE.ConeGeometry( 10, 30, 10, 1 );
     const material = new THREE.MeshPhongMaterial( { color: 0xfc62c9, flatShading: true } );
     const mesh = new THREE.InstancedMesh( geometry, material, 500 );
     const tree = new THREE.Object3D();
-    for ( let i = 0; i < 25; i ++ ) {
-        tree.position.x = Math.random() * 300-150;
+    
+    mesh.translateY( -10 );
+    for ( let i = 0; i < 40; i ++ ) {
+        tree.position.x = Math.random() * 500-300;
         tree.position.y = 0;
-        tree.position.z = Math.random() * 300-150;
+        tree.position.z = Math.random() * 500-300;
         tree.updateMatrix();
         mesh.setMatrixAt( i, tree.matrix );
     }
@@ -65,7 +67,7 @@ function init() {
      //sprinkles
     const sGeometry = new THREE.CapsuleGeometry( 2, 10, 20, 20, 1);
     const sMaterial = new THREE.MeshPhongMaterial({flatShading: true} );
-    const capsule = new THREE.InstancedMesh( sGeometry, sMaterial, 50);
+    const capsule = new THREE.InstancedMesh( sGeometry, sMaterial, 500);
     const sprinkle = new THREE.Object3D();
     const color = new THREE.Color();
     
@@ -74,9 +76,9 @@ function init() {
     //angle in radians!
     capsule.rotateX( 1.5708 );
     
-    for ( let i = 0; i < 50; i ++ ) {
-        sprinkle.position.x = Math.random() * 300-150;
-        sprinkle.position.y = Math.random() * 300-150;
+    for ( let i = 0; i < 75; i ++ ) {
+        sprinkle.position.x = Math.random() * 400-200;
+        sprinkle.position.y = Math.random() * 400-200;
         sprinkle.rotation.x = Math.random() * Math.PI;
         sprinkle.updateMatrix();
         capsule.setMatrixAt( i, sprinkle.matrix );

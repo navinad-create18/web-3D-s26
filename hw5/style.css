@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Englebert&family=Quicksand:wght@300..700&display=swap');
+
+body {
+    background: #8a0a41;
+    color: #ffd4a8;
+}
+
+main {
+  padding-left: 10%;
+  padding-right: 10%;
+  max-width: 800px;
+  margin: auto;
+}
+
+h1 {
+  font-family: "Englebert", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 60px;
+  text-align: center;
+  margin: auto;
+  padding-bottom: 30px;
+}
+
+h2 {
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.subtitle {
+  color: white;
+  margin: auto;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.caption {
+  text-align: center;
+  color: white;
+}
+
+p, ul {
+   font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  text-align: center;
+}
+
+a {
+  color: magenta;
+}
+
+a:visited {
+  color: deeppink
+}
+
+canvas {
+  display: block;
+  margin: auto;
+  padding-bottom: 20px;
+}

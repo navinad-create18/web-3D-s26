@@ -165,7 +165,7 @@ controls.lock();
 
     // Grouping of trees
     const geometry = new THREE.ConeGeometry( 10, 60, 8, 1 );
-    const material = new THREE.MeshPhongMaterial( { color: 0xd355fa, flatShading: true } );
+    const material = new THREE.MeshPhongMaterial( { color: 0x14401e, flatShading: true } );
     const mesh = new THREE.InstancedMesh( geometry, material, 500 );
     const tree = new THREE.Object3D();
     for ( let i = 0; i < 75; i ++ ) {

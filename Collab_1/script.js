@@ -14,8 +14,21 @@ import { OrbitControls } from './src/OrbitControls.js';
 //The plug-in for First Person Controls
 import { PointerLockControls } from './src/PointerLockControls.js';
 
+//The plug-in to load glb models
+import { GLTFLoader } from './src/GLTFLoader.js';
+
+//Import water shader
+import { Water } from './src/Water.js';
+
+let water;
+let bloomPass;
+
+import { UnrealBloomPass } from './src/UnrealBloomPass.js';
+
 // Declaring global variables.
-let camera, canvas, controls, scene, renderer;
+let camera, canvas, controls, scene, renderer, bear;
+
+
 
 //Variables for First Person Controls
 let raycaster;
@@ -47,9 +60,17 @@ function init() {
     renderer.setAnimationLoop( animate );
     canvas.appendChild( renderer.domElement );
 
+    //bloom pass
+    bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+				bloomPass.threshold = 0;
+				bloomPass.strength = 0.1;
+				bloomPass.radius = 0;
+				renderer.setEffects( [ bloomPass ] );
+    
+    
     // Setup camera
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
-    camera.position.set( 0, 10, 0 );
+    camera.position.set( 0, 10, 200 );
 
     // Setup Orbit controls
     //controls = new OrbitControls( camera, renderer.domElement );
@@ -70,8 +91,6 @@ function init() {
 
     instructions.addEventListener( 'click', function () {
 controls.lock();
-        
-        controls.lock();
 
     } );
 
@@ -157,31 +176,81 @@ controls.lock();
 
     raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
-				
-
     //End of First person setup
+    
+       // Add world geometry that needs loading inside init
+    const loader = new GLTFLoader();
+        loader.load( './assets/polar_bear_full.glb',  function ( gltf ) {
 
-    // Add world geometry
+            bear = gltf.scene;
+            bear.scale.set (10,10,10);
+            bear.position.set(0,-10,0);
+            scene.add( bear ); 
 
-    // Grouping of trees
-    const geometry = new THREE.ConeGeometry( 10, 60, 8, 1 );
-    const material = new THREE.MeshPhongMaterial( { color: 0x14401e, flatShading: true } );
-    const mesh = new THREE.InstancedMesh( geometry, material, 500 );
-    const tree = new THREE.Object3D();
-    for ( let i = 0; i < 75; i ++ ) {
-        tree.position.x = Math.random() * 250 - 125;
-        tree.position.y = 0;
-        tree.position.z = Math.random() * 250 - 125;
-        tree.updateMatrix();
-        mesh.setMatrixAt( i, tree.matrix );
-    }
-    scene.add( mesh );
+            //createGUI( bear, gltf.animations );
+            
+            loader.load( './assets/monarch_modFinal.glb', function ( gltf ) {
 
+
+        }, undefined, function ( e ) {
+
+            console.error( e );
+
+        } );    
+            
+        } );    
+    
+    
+    //Add water
+    // Water
+
+        const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
+
+        water = new Water(
+            waterGeometry,
+            {
+                textureWidth: 512,
+                textureHeight: 512,
+                waterNormals: new THREE.TextureLoader().load( 'textures/water_texture.jpg', function ( texture ) {
+
+                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+                } ),
+                sunDirection: new THREE.Vector3(),
+                sunColor: 0xffffff,
+                waterColor: 0x001e0f,
+                distortionScale: 3.7,
+                fog: scene.fog !== undefined
+            }
+        );
+
+        water.rotation.x = - Math.PI / 2;
+
+        scene.add( water );
+                    
+}
+
+
+    //// Grouping of trees
+    //const geometry = new THREE.ConeGeometry( 10, 60, 8, 1 );
+    //const material = new THREE.MeshPhongMaterial( { color: 0x14401e, flatShading: true } );
+    //const mesh = new THREE.InstancedMesh( geometry, material, 500 );
+    //const tree = new THREE.Object3D();
+    //for ( let i = 0; i < 75; i ++ ) {
+    //    tree.position.x = Math.random() * 250 - 125;
+    //    tree.position.y = 0;
+    //    tree.position.z = Math.random() * 250 - 125;
+    //    tree.updateMatrix();
+    //    mesh.setMatrixAt( i, tree.matrix );
+    //}
+    //scene.add( mesh );
+
+const planeGeo = new THREE.PlaneGeometry( 100.1, 100.1 );
     // Ground
     const earth = new THREE.PlaneGeometry( 2000, 2000 );
     const ground = new THREE.MeshPhongMaterial( { color: 0x402314, flatShading: true } );
-    const mesh2 = new THREE.InstancedMesh( earth, ground, 500 );
-    mesh2.translateY( -60 );
+    const mesh2 = new THREE.Mesh( earth, ground );
+    mesh2.translateY( -65 );
     mesh2.rotateX( -1.5708 );
     scene.add( mesh2 );
 
@@ -196,7 +265,7 @@ controls.lock();
 
     const ambientLight = new THREE.AmbientLight( 0x555555 );
     scene.add( ambientLight );
-}
+
 
 // Function to update moving objects, in this case the camera.
 // The render function is trigger at the end to update the canvas.
@@ -204,6 +273,8 @@ function animate() {
     
     //Start First Person Control Animations
     const time = performance.now();
+    
+    
     if ( controls.isLocked === true ) {
 
         
@@ -224,19 +295,26 @@ function animate() {
 
         controls.moveRight( - velocity.x * delta );
         controls.moveForward( - velocity.z * delta );
-
+ 
+        controls.object.position.y += ( velocity.y * delta ); // new behavior 
+        
+        	if (controls.object.position.y < 10) {
+            velocity.y = 0;
+            controls.object.position.y = 10;
             canJump = true;
-
+            }
     }
 
     prevTime = time;
 
     //End First Person Control Animations
     
-    renderer.render( scene, camera );
+     renderer.render( scene, camera );
+   
 }
 
 // Function to render the scene using the camera.
 function render() {
+    
     renderer.render( scene, camera );
 }

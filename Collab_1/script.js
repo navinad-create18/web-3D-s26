@@ -29,7 +29,7 @@ import { Sky } from './src/Sky.js';
 let sky;		
 
 // Declaring global variables.
-let camera, canvas, controls, scene, renderer, bear;
+let camera, canvas, controls, scene, renderer, bear, iceBlock, iceBlocks;
 
 
 
@@ -66,7 +66,7 @@ function init() {
     
     // Setup camera
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
-    camera.position.set( 0, 10, 200 );
+    camera.position.set( 0, 20, 200 );
 
     // Setup Orbit controls
     //controls = new OrbitControls( camera, renderer.domElement );
@@ -174,28 +174,53 @@ controls.lock();
 
     //End of First person setup
     
-       // Add world geometry that needs loading inside init
+
+
+    
+       // load polar bear
     const loader = new GLTFLoader();
         loader.load( './assets/polar_bear_full.glb',  function ( gltf ) {
 
             bear = gltf.scene;
             bear.scale.set (10,10,10);
-            bear.position.set(0,-10,0);
+            bear.position.set(0,5,0);
             scene.add( bear ); 
 
-            //createGUI( bear, gltf.animations );
-            
-            loader.load( './assets/monarch_modFinal.glb', function ( gltf ) {
+                
+            //load ice blocks
+            loader.load( './assets/ice_block.glb', function ( gltf ) {
 
+            iceBlock = gltf.scene;
+            iceBlock.scale.set (10,10,10);
+            iceBlock.position.set(50,0,0);
+            scene.add( iceBlock );
 
         }, undefined, function ( e ) {
 
             console.error( e );
 
-        } );    
+        } );
+            
+            loader.load( './assets/ice_blocks.glb', function ( gltf ) {
+
+            iceBlocks = gltf.scene;
+            iceBlocks.scale.set (10,10,10);
+            iceBlocks.position.set(50,0,0);
+            scene.add( iceBlocks );
+
+        }, undefined, function ( e ) {
+
+            console.error( e );
+
+        } );
+
             
         } );    
     
+        //Keyboard presses for moving bear + iceBlock up and down
+
+
+
     
     //Add water
     // Water
@@ -300,6 +325,7 @@ updateSun();
 // The render function is trigger at the end to update the canvas.
 function animate() {
     
+  
     //Start First Person Control Animations
     const time = performance.now();
     
@@ -337,7 +363,8 @@ function animate() {
     prevTime = time;
 
     //End First Person Control Animations
-    
+    //
+
     //water animation, changed time to dot notation
     water.material.uniforms.time.value += 1.0 / 60.0;
     

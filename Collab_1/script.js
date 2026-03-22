@@ -1,9 +1,8 @@
-// Basic Three.js Example
-// Chelsea Thompto - Spring 2026
-
 // Three.js uses an import map to add features.
 // The "import * as THREE from 'three';" will be
 // in all sketches. Add-ons will be added after.
+
+// water and sky shaders referenced at this link: https://github.com/mrdoob/three.js/blob/master/examples/webgl_shaders_ocean.html
 
 // The main library script
 import * as THREE from 'three';
@@ -22,9 +21,11 @@ import { Water } from './src/Water.js';
 
 let water;
 
+//Import stats for water loading
 import Stats from './src/stats.module.js';
 let stats;
-			
+
+//Import Sky
 import { Sky } from './src/Sky.js';
 let sky;		
 
@@ -76,17 +77,6 @@ function init() {
     // Setup camera
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
     camera.position.set( 0, 10, 200 );
-
-    // Setup Orbit controls
-    //controls = new OrbitControls( camera, renderer.domElement );
-    //controls.listenToKeyEvents( window ); 
-    //controls.enableDamping = true; 
-    //controls.dampingFactor = 0.05;
-    //controls.screenSpacePanning = false;
-    //controls.minDistance = 100;
-    //controls.maxDistance = 500;
-    //controls.cursorStyle = 'grab';
-    //controls.maxPolarAngle = Math.PI / 2;
     
     // Setup First Person Controls
     controls = new PointerLockControls( camera, document.body );
@@ -143,6 +133,7 @@ controls.lock();
             if ( canJump === true ) velocity.y += 350;
             canJump = false;
             break;
+
         //for bear and ice movement
         case 'KeyM':
             melt = true;
@@ -151,7 +142,7 @@ controls.lock();
         case 'KeyF':
             freeze = true;
             break;
-    }
+    } //end bear and ice movement keys
 
     };
 
@@ -198,8 +189,6 @@ controls.lock();
 
     //End of First person setup
     
-
-
     
        // load polar bear
     const loader = new GLTFLoader();
@@ -210,9 +199,8 @@ controls.lock();
             bear.position.set(0,5,0);
             bear.translateY(5);
             scene.add( bear ); 
-
                 
-            //load ice blocks
+            //load ice sheet
             loader.load( './assets/ice_block.glb', function ( gltf ) {
 
             iceBlock = gltf.scene;
@@ -226,6 +214,7 @@ controls.lock();
 
         } );
             
+            //load ice blocks
             loader.load( './assets/ice_blocks.glb', function ( gltf ) {
 
             iceBlocks = gltf.scene;
@@ -241,8 +230,7 @@ controls.lock();
         
         } );   
 
-    
-    
+    //Code for Audio
     const listener = new THREE.AudioListener();
 camera.add(listener);
 
@@ -282,7 +270,6 @@ audioLoader.load('./assets/Akon_Lonely.mp3', function(buffer) {
 	}
 }, { once: true });
     
-    //Add water
     // Water
 
         const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
@@ -310,7 +297,6 @@ audioLoader.load('./assets/Akon_Lonely.mp3', function(buffer) {
         water.position.y = 0;
         scene.add( water );
     
-    //Sun from three.js examples
     // Skybox
 
         sky = new Sky();
@@ -333,7 +319,7 @@ audioLoader.load('./assets/Akon_Lonely.mp3', function(buffer) {
             exposure: 0.1
         };
     
-//render sun from three.js examples
+//render sun from three.js example
     const sun = new THREE.Vector3();
 
 const parameters2 = {
@@ -414,10 +400,9 @@ function animate() {
             }
     }
 
-    
-
     //End First Person Control Animations
-    //Start bear and ice movement animations
+    //
+    //Start bear and ice animations
         if (melt){
             if (iceBlock && iceBlock.position.y > moveDownIceY){
                 iceBlock.position.y -= (iceSpeed * delta);
@@ -443,14 +428,12 @@ function animate() {
     if (iceBlock){
     iceBlock.position.y = THREE.MathUtils.clamp(iceBlock.position.y, moveDownIceY, moveUpIceY);
     }
-
+    //end bear and ice animations
+    //
     //water animation, changed time to dot notation
     
     water.material.uniforms.time.value += 1.0 / 60.0;
       
-    
-
-    
      renderer.render( scene, camera );
    
 }

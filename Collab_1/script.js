@@ -22,9 +22,11 @@ import { Water } from './src/Water.js';
 
 let water;
 
-
-import { UnrealBloomPass } from './src/UnrealBloomPass.js';
-let bloomPass;
+import Stats from './src/stats.module.js';
+let stats;
+			
+import { Sky } from './src/Sky.js';
+let sky;		
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer, bear;
@@ -53,20 +55,13 @@ function init() {
     // scene setup
     canvas = document.getElementById("3-holder");
     scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0xbfeff5 );
+    scene.background = null;
     scene.fog = new THREE.FogExp2( 0xbfeff5, 0.0015 );
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     //renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( innerWidth, innerHeight );
     renderer.setAnimationLoop( animate );
     canvas.appendChild( renderer.domElement );
-
-    //bloom pass
-    bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
-				bloomPass.threshold = 0;
-				bloomPass.strength = 0.1;
-				bloomPass.radius = 0;
-				renderer.setEffects( [ bloomPass ] );
     
     
     // Setup camera
@@ -212,7 +207,7 @@ controls.lock();
             {
                 textureWidth: 512,
                 textureHeight: 512,
-                waterNormals: new THREE.TextureLoader().load( 'textures/water_texture.jpg', function ( texture ) {
+                waterNormals: new THREE.TextureLoader().load( './assets/waternormals.jpg', function ( texture ) {
 
                     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
@@ -223,22 +218,65 @@ controls.lock();
                 distortionScale: 3.7,
                 fog: scene.fog !== undefined
             }
+            
         );
 
         water.rotation.x = - Math.PI / 2;
-
+        water.position.y = 0;
         scene.add( water );
-                    
+    
+    //Sun from three.js examples
+    // Skybox
+
+        sky = new Sky();
+        sky.scale.setScalar( 10000 );
+        scene.add( sky );
+
+        const skyUniforms = sky.material.uniforms;
+
+        skyUniforms.turbidity.value = 10;
+        skyUniforms.rayleigh.value = 2;
+        skyUniforms.mieCoefficient.value = 0.005;
+        skyUniforms.mieDirectionalG.value = 0.8;
+        skyUniforms.cloudCoverage.value = 0.4;
+        skyUniforms.cloudDensity.value = 0.5;
+        skyUniforms.cloudElevation.value = 0.5;
+
+        const parameters = {
+            elevation: 2,
+            azimuth: 180,
+            exposure: 0.1
+        };
+    
+//render sun from three.js examples
+    const sun = new THREE.Vector3();
+
+const parameters2 = {
+    elevation: 2,
+    azimuth: 180
+};
+
+function updateSun() {
+
+    const phi = THREE.MathUtils.degToRad(90 - parameters2.elevation);
+    const theta = THREE.MathUtils.degToRad(parameters2.azimuth);
+
+    sun.setFromSphericalCoords(1, phi, theta);
+
+    sky.material.uniforms.sunPosition.value.copy(sun);
+    water.material.uniforms.sunDirection.value.copy(sun).normalize();
+
 }
 
-
-const planeGeo = new THREE.PlaneGeometry( 100.1, 100.1 );
+updateSun();
+    
     // Ground
+    
     const earth = new THREE.PlaneGeometry( 2000, 2000 );
     const ground = new THREE.MeshPhongMaterial( { color: 0x402314, flatShading: true } );
     const mesh2 = new THREE.Mesh( earth, ground );
-    mesh2.translateY( -65 );
-    mesh2.rotateX( -1.5708 );
+    mesh2.position.y= -65;
+    mesh2.rotation.x = -1.5708;
     scene.add( mesh2 );
 
     // lights
@@ -252,6 +290,10 @@ const planeGeo = new THREE.PlaneGeometry( 100.1, 100.1 );
 
     const ambientLight = new THREE.AmbientLight( 0x555555 );
     scene.add( ambientLight );
+}
+
+
+
 
 
 // Function to update moving objects, in this case the camera.
@@ -295,6 +337,11 @@ function animate() {
     prevTime = time;
 
     //End First Person Control Animations
+    
+    //water animation, changed time to dot notation
+    water.material.uniforms.time.value += 1.0 / 60.0;
+    
+
     
      renderer.render( scene, camera );
    

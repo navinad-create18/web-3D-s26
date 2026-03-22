@@ -21,9 +21,10 @@ import { GLTFLoader } from './src/GLTFLoader.js';
 import { Water } from './src/Water.js';
 
 let water;
-let bloomPass;
+
 
 import { UnrealBloomPass } from './src/UnrealBloomPass.js';
+let bloomPass;
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer, bear;

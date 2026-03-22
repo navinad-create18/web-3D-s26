@@ -66,7 +66,7 @@ function init() {
     
     // Setup camera
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
-    camera.position.set( 0, 20, 200 );
+    camera.position.set( 0, 10, 200 );
 
     // Setup Orbit controls
     //controls = new OrbitControls( camera, renderer.domElement );

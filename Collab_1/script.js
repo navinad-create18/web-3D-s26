@@ -31,6 +31,15 @@ let sky;
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer, bear, iceBlock, iceBlocks;
 
+//movement variables for ice and bear movement
+let melt = false;
+let freeze = false;
+
+const moveUpBearY = 5; //starting position of bear and ice
+const moveUpIceY = 0;
+const moveDownIceY = -50;
+const moveDownBearY = -45;
+const iceSpeed = 30;
 
 
 //Variables for First Person Controls
@@ -134,8 +143,15 @@ controls.lock();
             if ( canJump === true ) velocity.y += 350;
             canJump = false;
             break;
+        //for bear and ice movement
+        case 'KeyM':
+            melt = true;
+            break;
 
-        }
+        case 'KeyF':
+            freeze = true;
+            break;
+    }
 
     };
 
@@ -162,6 +178,14 @@ controls.lock();
         case 'KeyD':
             moveRight = false;
             break;
+        //bear and ice movement
+        case 'KeyM':
+                melt = false;
+                break;
+                
+            case 'KeyF':
+                freeze = false;
+                break;
 
         }
 
@@ -184,6 +208,7 @@ controls.lock();
             bear = gltf.scene;
             bear.scale.set (10,10,10);
             bear.position.set(0,5,0);
+            bear.translateY(5);
             scene.add( bear ); 
 
                 
@@ -213,14 +238,49 @@ controls.lock();
             console.error( e );
 
         } );
+        
+        } );   
 
-            
-        } );    
     
-        //Keyboard presses for moving bear + iceBlock up and down
+    
+    const listener = new THREE.AudioListener();
+camera.add(listener);
 
+const audioLoader = new THREE.AudioLoader();
+const backgroundSound = new THREE.Audio(listener);
 
+audioLoader.load('./assets/Akon_Lonely.mp3', function(buffer) {
+	backgroundSound.setBuffer(buffer);
+	backgroundSound.setLoop(true);
+	backgroundSound.setVolume(0.4);
 
+	// Try autoplay if user already allowed it before
+	if (localStorage.getItem("audioEnabled") === "true") {
+		if (listener.context.state === "suspended") {
+			listener.context.resume().then(() => {
+				backgroundSound.play();
+			});
+		} else {
+			backgroundSound.play();
+		}
+	}
+});
+	
+	document.addEventListener("click", () => {
+	localStorage.setItem("audioEnabled", "true");
+
+	if (listener.context.state === "suspended") {
+		listener.context.resume().then(() => {
+			if (!backgroundSound.isPlaying) {
+				backgroundSound.play();
+			}
+		});
+	} else {
+		if (!backgroundSound.isPlaying) {
+			backgroundSound.play();
+		}
+	}
+}, { once: true });
     
     //Add water
     // Water
@@ -317,10 +377,6 @@ updateSun();
     scene.add( ambientLight );
 }
 
-
-
-
-
 // Function to update moving objects, in this case the camera.
 // The render function is trigger at the end to update the canvas.
 function animate() {
@@ -328,12 +384,10 @@ function animate() {
   
     //Start First Person Control Animations
     const time = performance.now();
-    
+    const delta = ( time - prevTime ) / 1000;
+        prevTime = time;
     
     if ( controls.isLocked === true ) {
-
-        
-        const delta = ( time - prevTime ) / 1000;
 
         velocity.x -= velocity.x * 10.0 * delta;
         velocity.z -= velocity.z * 10.0 * delta;
@@ -360,13 +414,40 @@ function animate() {
             }
     }
 
-    prevTime = time;
+    
 
     //End First Person Control Animations
-    //
+    //Start bear and ice movement animations
+        if (melt){
+            if (iceBlock && iceBlock.position.y > moveDownIceY){
+                iceBlock.position.y -= (iceSpeed * delta);
+            }
+            if (bear && bear.position.y > moveDownBearY){
+                bear.position.y -= (iceSpeed * delta);
+            }
+    }
+        if (freeze){
+            if (iceBlock && iceBlock.position.y < moveUpIceY){
+                iceBlock.position.y += (iceSpeed* delta);
+            }
+            if (bear && bear.position.y < moveUpBearY){
+                bear.position.y += (iceSpeed* delta);
+            }
+        }
+    
+    //limits bear and ice positions
+    if (bear){
+         bear.position.y = THREE.MathUtils.clamp(bear.position.y, moveDownBearY, moveUpBearY);
+    }
+    
+    if (iceBlock){
+    iceBlock.position.y = THREE.MathUtils.clamp(iceBlock.position.y, moveDownIceY, moveUpIceY);
+    }
 
     //water animation, changed time to dot notation
+    
     water.material.uniforms.time.value += 1.0 / 60.0;
+      
     
 
     

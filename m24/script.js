@@ -183,9 +183,10 @@ controls.lock();
             side: THREE.DoubleSide
         } );
         
-        // backslash \ creates a new line in your message
-        const message = 'Tuesday March 24 Demo\nDemo';
-        const shapes = font.generateShapes(message, 100);
+        // backslash \n creates a new line in your message
+        const message = 'Tuesday March 24 Demo\n Another line';
+        //shape and size of message
+        const shapes = font.generateShapes(message, 40);
         const textGeometry = new THREE.ShapeGeometry( shapes );
         
         //creates bounding box around text like in Illustrator
@@ -200,6 +201,7 @@ controls.lock();
         const text = new THREE.Mesh ( textGeometry, matLite );
         text.position.y = 50;
         text.position.z = -200;
+        text.position.x = 50;
         scene.add (text);
         
     } );
@@ -234,7 +236,7 @@ controls.lock();
     
     // Grouping of trees
     const geometry = new THREE.ConeGeometry( 10, 60, 8, 1 );
-    const material = new THREE.MeshPhongMaterial( { color: 0x1c84a3, flatShading: true } );
+    const material = new THREE.MeshPhongMaterial( { color: 0x637326, flatShading: true } );
     const mesh = new THREE.InstancedMesh( geometry, material, 500 );
     const tree = new THREE.Object3D();
     for ( let i = 0; i < 75; i ++ ) {

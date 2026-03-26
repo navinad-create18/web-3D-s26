@@ -17,10 +17,20 @@ import { PointerLockControls } from './src/PointerLockControls.js';
 //The plug-in for Font Loader
 import { FontLoader } from './src/FontLoader.js';
 
-
+//for glow effect of gem
+import { EffectComposer } from './src/EffectComposer.js';
+import { RenderPass } from './src/RenderPass.js';
+import { ShaderPass } from './src/ShaderPass.js';
+import { UnrealBloomPass } from './src/UnrealBloomPass.js';
+import { OutputPass } from './src/OutputPass.js';
+import { RoomEnvironment } from './src/RoomEnvironment.js';
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer;
+
+//variables for animated elements
+let gemstoneMesh;
+let torusLine;
 
 //Variables for First Person Controls
 let raycaster;
@@ -40,32 +50,86 @@ init();
 
 // Define initial scene
 function init() {
+    
+//bloom setup
+const BLOOM_SCENE = 1;
 
-    // scene setup
-    canvas = document.getElementById("3-holder");
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0xbfeff5 );
-    scene.fog = new THREE.FogExp2( 0xbfeff5, 0.0015 );
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    //renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( innerWidth, innerHeight );
-    renderer.setAnimationLoop( animate );
-    canvas.appendChild( renderer.domElement );
+    const bloomLayer = new THREE.Layers();
+    bloomLayer.set( BLOOM_SCENE );
+
+    const params = {
+        threshold: 0,
+        strength: 1,
+        radius: 0.5,
+        exposure: 1
+    };
+    
+    //bloom scene setup
+    const darkMaterial = new THREE.MeshBasicMaterial( { color: 'black' } );
+    const materials = {};
+
+    const renderer = new THREE.WebGLRenderer( { antialias: false } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.toneMapping = THREE.NeutralToneMapping;
+    document.body.appendChild( renderer.domElement );
+
+    const scene = new THREE.Scene();
+    const pmremGenerator = new THREE.PMREMGenerator( renderer );
+    scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.04 ).texture;
+
+
+    const renderScene = new RenderPass( scene, camera );
+
+    const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+    bloomPass.threshold = params.threshold;
+    bloomPass.strength = params.strength;
+    bloomPass.radius = params.radius;
+
+    const bloomRenderTarget = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, { type: THREE.HalfFloatType } );
+    const bloomComposer = new EffectComposer( renderer, bloomRenderTarget );
+    bloomComposer.renderToScreen = false;
+    bloomComposer.addPass( renderScene );
+    bloomComposer.addPass( bloomPass );
+
+    const mixPass = new ShaderPass(
+        new THREE.ShaderMaterial( {
+            uniforms: {
+                baseTexture: { value: null },
+                bloomTexture: { value: bloomComposer.renderTarget2.texture },
+                bloomStrength: { value: params.strength }
+            },
+            vertexShader: document.getElementById( 'vertexshader' ).textContent,
+            fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+            defines: {}
+        } ), 'baseTexture'
+    );
+    mixPass.needsSwap = true;
+
+    const outputPass = new OutputPass();
+
+    const finalRenderTarget = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, { type: THREE.HalfFloatType, samples: 4 } );
+    const finalComposer = new EffectComposer( renderer, finalRenderTarget );
+    finalComposer.addPass( renderScene );
+    finalComposer.addPass( mixPass );
+    finalComposer.addPass( outputPass );
+
+    
+    // original scene setup
+    //canvas = document.getElementById("3-holder");
+    //scene = new THREE.Scene();
+    //scene.background = new THREE.Color( 0xbfeff5 );
+    //scene.fog = new THREE.FogExp2( 0xbfeff5, 0.0015 );
+    //renderer = new THREE.WebGLRenderer( { antialias: true } );
+    ////renderer.setPixelRatio( window.devicePixelRatio );
+    //renderer.setSize( innerWidth, innerHeight );
+    //renderer.setAnimationLoop( animate );
+    //canvas.appendChild( renderer.domElement );
 
     // Setup camera
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
     camera.position.set( 0, 10, 100 );
 
-    // Setup Orbit controls
-    //controls = new OrbitControls( camera, renderer.domElement );
-    //controls.listenToKeyEvents( window ); 
-    //controls.enableDamping = true; 
-    //controls.dampingFactor = 0.05;
-    //controls.screenSpacePanning = false;
-    //controls.minDistance = 100;
-    //controls.maxDistance = 500;
-    //controls.cursorStyle = 'grab';
-    //controls.maxPolarAngle = Math.PI / 2;
     
     // Setup First Person Controls
     controls = new PointerLockControls( camera, document.body );
@@ -197,7 +261,7 @@ controls.lock();
         textGeometry.boundingBox.min.x );
         textGeometry.translate( xMid, 0, 0 );
         
-        //ad ojects to scene
+        //add ojects to scene
         const text = new THREE.Mesh ( textGeometry, matLite );
         text.position.y = 50;
         text.position.z = -200;
@@ -209,38 +273,32 @@ controls.lock();
     
     // Add world geometry
  //torus knot shape
-    const coolShape = new THREE.TorusKnotGeometry( 10,3,100,16 );
-    
-    //torus knot color
-    const knotColor = new THREE.MeshPhongMaterial ({color: 0x7f01a2});
-    const knotShape = new THREE.Mesh(coolShape, knotColor);
-    
-    knotShape.position.z = -300;
-    knotShape.position.y = 50;
-    scene.add( knotShape );
-
-// rotating gemstone
-    const gemstone = new THREE.OctahedronGeometry(30, 0);
-    const GemMaterial = new THREE.MeshPhongMaterial( { color: 0xffff00 } );
-    const gemstoneMesh = new THREE.Mesh( gemstone, GemMaterial );
-    scene.add( gemstoneMesh );
+    //const coolShape = new THREE.TorusKnotGeometry( 10,3,100,16 );
+    //
+    ////torus knot color
+    //const knotColor = new THREE.MeshPhongMaterial ({color: 0x7f01a2});
+    //const knotShape = new THREE.Mesh(coolShape, knotColor);
+    //
+    //knotShape.position.z = -300;
+    //knotShape.position.y = 50;
+    //scene.add( knotShape );
 
     
    
        //March 24 example material and object
-    const donut = new THREE.TorusGeometry( 50, 20, 16, 100 );
-    const donutMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-    
-    const torus = new THREE.Mesh( donut, donutMaterial );
-    torus.position.y =50;
-    torus.position.z = -250;
-    scene.add( torus );
-    
-    const donutLine = new THREE.MeshBasicMaterial ({color: 0x000000, wireframe:true});
-    const torusLine = new THREE.Mesh( donut, donutLine );
-    torusLine.position.y =50;
-    torusLine.position.z = -250;
-    scene.add( torusLine );
+    //const donut = new THREE.TorusGeometry( 50, 20, 16, 100 );
+    //const donutMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+    //
+    //const torus = new THREE.Mesh( donut, donutMaterial );
+    //torus.position.y =50;
+    //torus.position.z = -250;
+    //scene.add( torus );
+    //
+    //const donutLine = new THREE.MeshBasicMaterial ({color: 0x000000, wireframe:true});
+    //torusLine = new THREE.Mesh( donut, donutLine );
+    //torusLine.position.y =50;
+    //torusLine.position.z = -250;
+    //scene.add( torusLine );
     
     // Grouping of trees
     //const geometry = new THREE.ConeGeometry( 10, 60, 8, 1 );
@@ -259,30 +317,30 @@ controls.lock();
     
 
     // Ground
-    const earth = new THREE.PlaneGeometry( 2000, 2000 );
-    const ground = new THREE.MeshPhongMaterial( { color: 0x402314, flatShading: true } );
-    const mesh2 = new THREE.InstancedMesh( earth, ground, 500 );
-    mesh2.translateY( -60 );
-    mesh2.rotateX( -1.5708 );
-    scene.add( mesh2 );
+    //const earth = new THREE.PlaneGeometry( 2000, 2000 );
+    //const ground = new THREE.MeshPhongMaterial( { color: 0x402314, flatShading: true } );
+    //const mesh2 = new THREE.InstancedMesh( earth, ground, 500 );
+    //mesh2.translateY( -60 );
+    //mesh2.rotateX( -1.5708 );
+    //scene.add( mesh2 );
     
     
 
     // lights
-    const dirLight1 = new THREE.DirectionalLight( 0xffffff, 3 );
-    dirLight1.position.set( 1, 1, 1 );
-    scene.add( dirLight1 );
-
-    const dirLight2 = new THREE.DirectionalLight( 0xffffff, 2 );
-    dirLight2.position.set( - 1, - 1, - 1 );
-    scene.add( dirLight2 );
-
-    const ambientLight = new THREE.AmbientLight( 0x555555 );
-    scene.add( ambientLight );
+    //const dirLight1 = new THREE.DirectionalLight( 0xffffff, 3 );
+    //dirLight1.position.set( 1, 1, 1 );
+    //scene.add( dirLight1 );
+//
+    //const dirLight2 = new THREE.DirectionalLight( 0xffffff, 2 );
+    //dirLight2.position.set( - 1, - 1, - 1 );
+    //scene.add( dirLight2 );
+//
+    //const ambientLight = new THREE.AmbientLight( 0x555555 );
+    //scene.add( ambientLight );
     
   
-    
-   
+//call setupScene function
+   setupScene();
 }
 
 // Function to update moving objects, in this case the camera.
@@ -291,11 +349,12 @@ function animate() {
     
     //Start First Person Control Animations
     const time = performance.now();
+    
+    
     if ( controls.isLocked === true ) {
-
         
         const delta = ( time - prevTime ) / 1000;
-
+        
         velocity.x -= velocity.x * 10.0 * delta;
         velocity.z -= velocity.z * 10.0 * delta;
 
@@ -312,24 +371,57 @@ function animate() {
         controls.moveRight( - velocity.x * delta );
         controls.moveForward( - velocity.z * delta );
 
-            controls.object.position.y += ( velocity.y * delta ); // new behavior 
-        
-        	if (controls.object.position.y < 10) {
-            velocity.y = 0;
-            controls.object.position.y = 10;
-            canJump = true;
-            }
+        controls.object.position.y += ( velocity.y * delta ); // new behavior 
 
+        if (controls.object.position.y < 10) {
+        velocity.y = 0;
+        controls.object.position.y = 10;
+        canJump = true;
+        }
     }
 
     prevTime = time;
 
     //End First Person Control Animations
     
-    renderer.render( scene, camera );
+   gemstoneMesh.rotation.y += 0.001;
+    
+    render();
+    
+     
+}
+
+function setupScene() {
+
+    scene.traverse( disposeMaterial );
+    scene.children.length = 0;
+
+    // rotating gemstone
+    const gemstone = new THREE.OctahedronGeometry(30, 0);
+    const GemMaterial = new THREE.MeshPhysicalMaterial( { 
+        color: 0x36cbd6, 
+        transmission: 1.0, 
+        roughness:0.0, 
+        metalness:0.5,
+        thickness: 2.0,} );
+    gemstoneMesh = new THREE.Mesh( gemstone, GemMaterial );
+    scene.add( gemstoneMesh );
+
+        if ( Math.random() < 0.25 ) gemstoneMesh.layers.enable( BLOOM_SCENE );
+
+    render();
+
 }
 
 // Function to render the scene using the camera.
 function render() {
+    scene.traverse( darkenNonBloomed );
+    bloomComposer.render();
+    scene.traverse( restoreMaterial );
+
+    // render the entire scene, then render bloom scene on top
+    finalComposer.render();
+    
+    //from og code
     renderer.render( scene, camera );
 }

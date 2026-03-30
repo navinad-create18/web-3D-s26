@@ -235,7 +235,7 @@ controls.lock();
     loader.load('./IosevkaCharon_Mono_Bold.json', function (font){
         
         //create color and material
-        const color = 0x006699;
+        const color = 0x51ad83;
         
         const matDark = new THREE.LineBasicMaterial( {
             color: color,
@@ -249,49 +249,115 @@ controls.lock();
             side: THREE.DoubleSide
         } );
         
+        const matLite2 = new THREE.MeshBasicMaterial( {
+            color: color,
+            transparent: true,
+            opacity: 0.4,
+            side: THREE.DoubleSide
+        } );
+        
         // backslash \n creates a new line in your message
-        const message = 'Tuesday March 24 Demo\n Another line';
+        const message = 'Magic Gem';
+        const message2 = 'in a Mysterious Place';
         //shape and size of message
         const shapes = font.generateShapes(message, 40);
+        const shapes2 = font.generateShapes(message2,15);
         const textGeometry = new THREE.ShapeGeometry( shapes );
+        const textGeometry2 = new THREE.ShapeGeometry( shapes2 );
         
         //creates bounding box around text like in Illustrator
         textGeometry.computeBoundingBox();
+        textGeometry2.computeBoundingBox();
         
         //translate to center like center align text
         const xMid = - 0.5 * ( textGeometry.boundingBox.max.x - 
         textGeometry.boundingBox.min.x );
-        textGeometry.translate( xMid, 0, 0 );
+        textGeometry.translate( xMid, 10, -30 );
+        
+        const xMid2 = - 0.5 * ( textGeometry2.boundingBox.max.x - 
+        textGeometry2.boundingBox.min.x );
+        textGeometry2.translate( xMid2, 10, -30 );
         
         //add ojects to scene
         const text = new THREE.Mesh ( textGeometry, matLite );
-        text.position.y = 50;
+        text.position.y = 140;
         text.position.z = -200;
-        text.position.x = 50;
+        text.position.x = 0;
         scene.add (text);
+        
+        const text2 = new THREE.Mesh ( textGeometry2, matLite2 );
+        text2.position.y = 100;
+        text2.position.z = -200;
+        text2.position.x = 0;
+        scene.add (text2);
         
     } );
     
     
-    // Add world geometry
+    // Add rocks
     
-    // Grouping of trees
-    //const geometry = new THREE.ConeGeometry( 10, 60, 8, 1 );
-    //const material = new THREE.MeshPhongMaterial( { color: 0x637326, flatShading: true } );
-    //const mesh = new THREE.InstancedMesh( geometry, material, 500 );
-    //const tree = new THREE.Object3D();
-    //for ( let i = 0; i < 75; i ++ ) {
-    //    tree.position.x = Math.random() * 250 - 125;
-    //    tree.position.y = 0;
-    //    tree.position.z = Math.random() * 250 - 125;
-    //    tree.updateMatrix();
-    //    mesh.setMatrixAt( i, tree.matrix );
-    //}
-    //scene.add( mesh );
+    //scattered rocks
+    const rockGeom = new THREE.DodecahedronGeometry();
+    const rockMaterial = new THREE.MeshPhongMaterial( { color: 0x47403b } );
+    const rocks = new THREE.InstancedMesh( rockGeom, rockMaterial, 75 );
+    const rockGroup = new THREE.Object3D();
+    
+    for ( let i = 0; i < 75; i ++ ) {
+        rockGroup.position.x = Math.random() * 250 - 125;
+        rockGroup.position.y = 0;
+        rockGroup.position.z = Math.random() * 325 - 325;
+        
+        //random scale
+        const scale = Math.random() * 10 + 1;
+        rockGroup.scale.set (scale,scale,scale);
+    
+        
+        rockGroup.updateMatrix();
+        rocks.setMatrixAt( i, rockGroup.matrix );
+    }
+    
+    scene.add( rocks );
+    
+    
+    //cylinder
+    const columnGeo = new THREE.CylinderGeometry( 5, 5, 20, 32 );
+    const columnMat = new THREE.MeshPhongMaterial( { color: 0x1d4021, wireframe: true } );
+    const cylinder = new THREE.Mesh( columnGeo, columnMat );
+    
+    cylinder.position.set (-150,100,-300);
+    cylinder.scale.set (8,12,8);
+    scene.add( cylinder );
+    
+    //cone
+    const geometry = new THREE.ConeGeometry( 5, 20, 32 );
+    const material = new THREE.MeshBasicMaterial( { color: 0x1d4021, wireframe: true } );
+    const cone = new THREE.Mesh(geometry, material );
+    
+    cone.scale.set(8,12,8);
+    cone.position.set(150,100,-300);
+    scene.add( cone );
+
+    //circle
+    const floor = new THREE.SphereGeometry( 10,32,10 );
+    const floorMaterial = new THREE.MeshPhongMaterial( { color: 0x1f3489,specular: 0x5e891f , shininess: 100 } );
+    const floorMesh = new THREE.Mesh( floor, floorMaterial );
+    
+    floorMesh.rotation.x = 30;
+    floorMesh.scale.set (10,10,10);
+    floorMesh.position.set (0,-100,-150);
+    scene.add( floorMesh );
+
+    
     
     // lights
-    const ambientLight = new THREE.AmbientLight( 0x555555 );
+    const ambientLight = new THREE.AmbientLight( 0x76daa5 );
     scene.add( ambientLight );
+    
+    // White directional light at half intensity shining from the top.
+const directionalLight = new THREE.DirectionalLight( 0x8af17e, 1 );
+    directionalLight.scale.set (10,10,10);
+scene.add( directionalLight );
+
     
   
 //call setupScene function
@@ -350,7 +416,7 @@ function animate() {
 function setupScene() {
     //scene.children.length = 0;
 
-    // rotating gemstone
+    // rotating gemstone and glow
     const gemstone = new THREE.OctahedronGeometry(30, 0);
     const GemMaterial = new THREE.MeshPhysicalMaterial( { 
         color: 0x36cbd6, 
@@ -362,7 +428,7 @@ function setupScene() {
     scene.add( gemstoneMesh );
 
         gemstoneMesh.layers.enable( BLOOM_SCENE );
-    gemstoneMesh.position.set (0,0,-200);
+    gemstoneMesh.position.set (0,50,-200);
 
     render();
 

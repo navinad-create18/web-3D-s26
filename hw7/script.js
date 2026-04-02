@@ -55,6 +55,7 @@ function init() {
     // Setup camera
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
     camera.position.set( 0, 10, 0 );
+    camera.scale.set(2,2,2);
 
     // Setup Orbit controls
     //controls = new OrbitControls( camera, renderer.domElement );
@@ -234,19 +235,10 @@ controls.lock();
     torusLine.position.z = -250;
     scene.add( torusLine );
     
-    // Grouping of trees
-    const geometry = new THREE.ConeGeometry( 10, 60, 8, 1 );
-    const material = new THREE.MeshPhongMaterial( { color: 0x637326, flatShading: true } );
-    const mesh = new THREE.InstancedMesh( geometry, material, 500 );
-    const tree = new THREE.Object3D();
-    for ( let i = 0; i < 75; i ++ ) {
-        tree.position.x = Math.random() * 250 - 125;
-        tree.position.y = 0;
-        tree.position.z = Math.random() * 250 - 125;
-        tree.updateMatrix();
-        mesh.setMatrixAt( i, tree.matrix );
-    }
-    scene.add( mesh );
+     //Grouping of trees
+    puffyTrees();
+    
+    
     
     
 
@@ -324,4 +316,50 @@ function animate() {
 // Function to render the scene using the camera.
 function render() {
     renderer.render( scene, camera );
+}
+
+function puffyTrees(){
+    
+    
+    const treeTop = new THREE.SphereGeometry( 15, 32, 16 );
+    const treeTopMaterial = new THREE.MeshPhongMaterial( { color: 0xff91a7 } );
+    const treeTopMesh = new THREE.Mesh( treeTop, treeTopMaterial );
+    scene.add( treeTopMesh );
+    treeTopMesh.position.set (-20,-10,-100);
+    treeTopMesh.scale.set(1,0.5,1);
+    
+    const treeTopMesh2 = new THREE.Mesh( treeTop, treeTopMaterial );
+    scene.add( treeTopMesh2 );
+    treeTopMesh2.position.set (0,0,-110);
+    
+    
+    const treeTopMesh3 = new THREE.Mesh( treeTop, treeTopMaterial );
+    scene.add( treeTopMesh3 );
+    treeTopMesh3.position.set (20,10,-100);
+    treeTopMesh3.scale.set(1.5,1.5,1.5);
+    
+     const treeTopMesh4 = new THREE.Mesh( treeTop, treeTopMaterial );
+    scene.add( treeTopMesh4 );
+    treeTopMesh4.position.set (40,-10,-100);
+    treeTopMesh4.scale.set(1.2,1,1);
+    
+    const treeTopMesh5 = new THREE.Mesh( treeTop, treeTopMaterial );
+    scene.add( treeTopMesh5 );
+    treeTopMesh5.position.set (10,-10,-80);
+    treeTopMesh5.scale.set(1.2,1,1);
+    
+    const treeTopMesh6 = new THREE.Mesh( treeTop, treeTopMaterial );
+    scene.add( treeTopMesh6 );
+    treeTopMesh6.position.set (10,-10,-120);
+    treeTopMesh6.scale.set(1.2,1,1);
+    
+       //for ( let i = 0; i < 75; i ++ ) {
+       // tree.position.x = Math.random() * 250 - 125;
+       // tree.position.y = 0;
+       // tree.position.z = Math.random() * 250 - 125;
+       // tree.updateMatrix();
+       // mesh.setMatrixAt( i, tree.matrix );
+    //}
+    
+
 }

@@ -279,24 +279,29 @@ function animate() {
 
         velocity.x -= velocity.x * 10.0 * delta;
         velocity.z -= velocity.z * 10.0 * delta;
-
-        velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+        
+        //adjust gravity
+        velocity.y -= 9.8 * 50.0 * delta; // 100.0 = mass
 
         direction.z = Number( moveForward ) - Number( moveBackward );
         direction.x = Number( moveRight ) - Number( moveLeft );
         direction.normalize(); // this ensures consistent movements in all directions
 
+        //change number before delta to change speed
         if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
         if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
 
 
         controls.moveRight( - velocity.x * delta );
         controls.moveForward( - velocity.z * delta );
+        
+        //space limiting code in demo website
 
             controls.object.position.y += ( velocity.y * delta ); // new behavior 
         
         	if (controls.object.position.y < 10) {
-            velocity.y = 0;
+            //adjust jump height
+            velocity.y = -180;
             controls.object.position.y = 10;
             canJump = true;
             }

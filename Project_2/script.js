@@ -54,6 +54,7 @@ function init() {
     renderer.setSize( innerWidth, innerHeight );
     renderer.setAnimationLoop( animate );
     canvas.appendChild( renderer.domElement );
+    
 
     // Setup camera
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -170,18 +171,25 @@ controls.lock();
 
     //load assets
     const loader = new GLTFLoader();
-        loader.load( './assets/Project2_sceneFinal1.glb',  function ( gltf ) {
+        loader.load( './assets/Project2_sceneFinal2.glb',  function ( gltf ) {
 
             assetsScene = gltf.scene;
             assetsScene.scale.set (0.5,0.5,0.5);
             assetsScene.position.set(0,0,-60);
             assetsScene.translateY(5);
+            
+         
+            
+            
             scene.add( assetsScene ); 
         },undefined, function ( e ) {
 
             console.error( e );
 
         } );
+    
+  
+
       
     
     //Add font and text
@@ -258,10 +266,8 @@ controls.lock();
     dirLight2.position.set( - 1, - 1, - 1 );
     scene.add( dirLight2 );
 
-    const ambientLight = new THREE.AmbientLight( 0x555555 );
+    const ambientLight = new THREE.AmbientLight( 0xe69999 );
     scene.add( ambientLight );
-    
-  
     
    
 }
@@ -317,10 +323,12 @@ function animate() {
 
 // Function to render the scene using the camera.
 function render() {
+    
     renderer.render( scene, camera );
+    
 }
 
-function puffyTrees(){
+function puffyTrees(x,y,z){
     
     
     const treeTop = new THREE.SphereGeometry( 15, 32, 16 );

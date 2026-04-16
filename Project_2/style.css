@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rationale&display=swap');
+
 @font-face {
  font-family: 'Bitcount Single';
  src: url("./BitcountSingle-Light.ttf") format('truetype');
@@ -55,10 +58,11 @@ h2 {
 }
 
 p, ul {
-  font-family: "Cascadia Code", sans-serif;
-  font-optical-sizing: auto;
+  font-family: "Rationale", sans-serif;
   font-weight: 400;
   font-style: normal;
+  text-align: center;
+  margin: 10px;
 }
 
 a {

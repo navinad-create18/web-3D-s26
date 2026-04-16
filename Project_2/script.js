@@ -170,7 +170,7 @@ controls.lock();
 
     //load assets
     const loader = new GLTFLoader();
-        loader.load( './assets/Project2_scene.glb',  function ( gltf ) {
+        loader.load( './assets/Project2_sceneFinal1.glb',  function ( gltf ) {
 
             assetsScene = gltf.scene;
             assetsScene.scale.set (0.5,0.5,0.5);

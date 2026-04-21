@@ -48,7 +48,7 @@ function init() {
     canvas = document.getElementById("3-holder");
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0xf5bfbf );
-    scene.fog = new THREE.FogExp2( 0xfa68bc, 0.0015 );
+    scene.fog = new THREE.FogExp2( 0xfa68bc, 0.006 );
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     //renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( innerWidth, innerHeight );
@@ -241,7 +241,16 @@ controls.lock();
     
     
      //Grouping of trees
-    //puffyTrees();
+    
+    const forest = puffyTrees();
+    for (let i = 0; i < 70; i++){
+        const trees = forest.clone(true);
+        
+        trees.position.set(
+        Math.random() *300 -200, 0, Math.random() * 300-200 );
+        
+        scene.add(trees);
+    }
     
     
     
@@ -297,11 +306,24 @@ function animate() {
         if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
         if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
 
-
+        
         controls.moveRight( - velocity.x * delta );
         controls.moveForward( - velocity.z * delta );
         
-        //space limiting code in demo website
+           // space limiting code adjust numbers to fit your space
+        // use geometery size and numbers as reference
+
+        if (controls.object.position.x > 20) {
+            controls.object.position.x = 19;
+        } else if (controls.object.position.x < -20) {
+            controls.object.position.x = -19;
+        }
+
+        if (controls.object.position.z > 62) {
+            controls.object.position.z = 61;
+        } else if (controls.object.position.z < -62) {
+            controls.object.position.z = -61;
+        }
 
             controls.object.position.y += ( velocity.y * delta ); // new behavior 
         
@@ -329,40 +351,58 @@ function render() {
 }
 
 function puffyTrees(x,y,z){
-    
+    const forest = new THREE.Group();
     
     const treeTop = new THREE.SphereGeometry( 15, 32, 16 );
     const treeTopMaterial = new THREE.MeshPhongMaterial( { color: 0xff91a7 } );
     const treeTopMesh = new THREE.Mesh( treeTop, treeTopMaterial );
     scene.add( treeTopMesh );
-    treeTopMesh.position.set (-20,-10,-100);
-    treeTopMesh.scale.set(1,0.5,1);
+    treeTopMesh.position.set (-5,27,-100);
+    treeTopMesh.scale.set(0.4,0.3,0.4);
     
     const treeTopMesh2 = new THREE.Mesh( treeTop, treeTopMaterial );
     scene.add( treeTopMesh2 );
-    treeTopMesh2.position.set (0,0,-110);
-    
+    treeTopMesh2.position.set (2,22,-105);
+    treeTopMesh2.scale.set(0.4,0.3,0.4);
     
     const treeTopMesh3 = new THREE.Mesh( treeTop, treeTopMaterial );
     scene.add( treeTopMesh3 );
-    treeTopMesh3.position.set (20,10,-100);
-    treeTopMesh3.scale.set(1.5,1.5,1.5);
+    treeTopMesh3.position.set (-10,20,-95);
+    treeTopMesh3.scale.set(0.5,0.5,0.5);
     
      const treeTopMesh4 = new THREE.Mesh( treeTop, treeTopMaterial );
     scene.add( treeTopMesh4 );
-    treeTopMesh4.position.set (40,-10,-100);
-    treeTopMesh4.scale.set(1.2,1,1);
+    treeTopMesh4.position.set (7,19,-100);
+    treeTopMesh4.scale.set(0.3,0.4,0.4);
     
     const treeTopMesh5 = new THREE.Mesh( treeTop, treeTopMaterial );
     scene.add( treeTopMesh5 );
-    treeTopMesh5.position.set (10,-10,-80);
-    treeTopMesh5.scale.set(1.2,1,1);
+    treeTopMesh5.position.set (3,20,-97);
+    treeTopMesh5.scale.set(0.3,0.4,0.4);
     
     const treeTopMesh6 = new THREE.Mesh( treeTop, treeTopMaterial );
     scene.add( treeTopMesh6 );
-    treeTopMesh6.position.set (10,-10,-120);
-    treeTopMesh6.scale.set(1.2,1,1);
+    treeTopMesh6.position.set (-3,20,-100);
+    treeTopMesh6.scale.set(0.3,0.4,0.4);
     
+    //tree trunk
+    const treeTrunk = new THREE.CylinderGeometry( 2, 2, 35, 16 );
+    const treeTrunkMaterial = new THREE.MeshPhongMaterial( { color: 0x331336 } );
+    const treeTrunkMesh = new THREE.Mesh(treeTrunk, treeTrunkMaterial);
+    scene.add( treeTrunkMesh);
+    treeTrunkMesh.position.set(-3,0,-100);
+    treeTrunkMesh.scale.set(1,1,1);
+    
+    //adds meshes to group
+    forest.add(treeTopMesh);
+    forest.add(treeTopMesh2);
+    forest.add(treeTopMesh3);
+    forest.add(treeTopMesh4);
+    forest.add(treeTopMesh5);
+    forest.add(treeTopMesh6);
+    forest.add(treeTrunkMesh);
+    
+    return forest;
        //for ( let i = 0; i < 75; i ++ ) {
        // tree.position.x = Math.random() * 250 - 125;
        // tree.position.y = 0;

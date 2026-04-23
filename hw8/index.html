@@ -363,9 +363,10 @@
                 controls.dampingFactor = 0.05;
                 controls.screenSpacePanning = false;
                 controls.minDistance = 100;
-                controls.maxDistance = 500;
+                controls.maxDistance = 3000;
                 controls.cursorStyle = 'grab';
                 controls.maxPolarAngle = Math.PI / 2;
+                controls.minPolarAngle = Math.PI /2;
 
 				const buttonTable = document.getElementById( 'table' );
 				buttonTable.addEventListener( 'click', function () {
@@ -443,13 +444,11 @@
 			}
 
 			function animate() {
-
+                
+                controls.update();
 				requestAnimationFrame( animate );
-
 				TWEEN.update();
-
-				controls.update();
-
+                
 			}
 
 			function render() {

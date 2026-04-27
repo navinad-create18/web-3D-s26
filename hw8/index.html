@@ -427,7 +427,6 @@
 
 				new TWEEN.Tween( this )
 					.to( {}, duration * 2 )
-					.onUpdate( render )
 					.start();
                 
 			}
@@ -449,7 +448,7 @@
                 controls.update();
 				requestAnimationFrame( animate );
 				TWEEN.update();
-                
+                render(); 
 			}
 
 			function render() {

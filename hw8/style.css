@@ -1,0 +1,137 @@
+   body {
+        background-color: #060326;
+    }
+
+    a {
+        color: #8ff;
+    }
+
+    #menu {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .element {
+        width: 120px;
+        height: 160px;
+        box-shadow: 1px 1px 12px rgba(0,255,255,0.5);
+        border: 1px solid rgba(127,255,255,0.25);
+        font-family: Helvetica, sans-serif;
+        text-align: center;
+        line-height: normal;
+        cursor: pointer;
+        touch-action: none;
+    }
+
+    .element:hover {
+        box-shadow: 1px 1px 12px rgba(0,255,255,0.75);
+        border: 1px solid rgba(127,255,255,0.75);
+    }
+
+        /*
+        .element .number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 12px;
+            color: rgba(127,255,255,0.75);
+        }
+        */
+
+        .element .symbol {
+            position: absolute;
+            top: 40px;
+            left: 1px;
+            right: 1px;
+            font-size: 30px;
+            font-weight: bold;
+            color: rgba(255,255,255,0.75);
+            text-shadow: 0 0 10px rgba(0,255,255,0.95);
+        }
+
+        .element .details {
+            position: absolute;
+            bottom: 15px;
+            left: 1px;
+            right: 1px;
+            font-size: 12px;
+            color: rgba(127,255,255,0.75);
+        }
+
+    button {
+        color: rgba(127,255,255,0.75);
+        background: transparent;
+        outline: 1px solid rgba(127,255,255,0.75);
+        border: 1px;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: rgba(0,255,255,0.5);
+    }
+
+    button:active {
+        color: #000000;
+        background-color: rgba(0,255,255,0.75);
+    }
+
+/*For popover element that's animated*/
+#elementPopover {
+    border: none;
+    padding: 0;
+    background:transparent;
+}
+
+/*for styling popover element*/
+#elementPopover::backdrop {
+    background: #18143d;
+    opacity:0.8;
+    backdrop-filter: blur(5px);
+}
+
+/*animated content inside popover*/
+.popover-text{
+    width: 500px;
+    min-height:400px;
+    padding: 20px;
+    background: #9791ce;
+    border: groove #8918d1;
+    border-radius: 10px;
+    color: #18143d;
+    
+    /*starting point of transition, popover hidden*/
+    transform: scale(0.8);
+    opacity: 0;
+    /*animation for transition for popover*/
+    transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+#elementPopover:popover-open .popover-text{
+    /*unhides popover*/
+    transform: scale(1);
+    opacity: 1;
+}
+
+#projectTitle {
+    font-size: 50px;
+    margin-bottom: 10px;
+    color: #18143d;
+}
+
+#projectText{
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+/*closes Popover*/
+#closeButton{
+    margin-top: 15px;
+    background: #054d6c;
+    color: #9de1ff;
+    border: #38b1e5;
+    padding: 15px 30px;
+    cursor: pointer;
+}
+

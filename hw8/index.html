@@ -5,85 +5,6 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="style.css">
-		<style>
-            
-            body {
-                background-color: #060326;
-            }
-            
-			a {
-				color: #8ff;
-			}
-
-			#menu {
-				position: absolute;
-				bottom: 20px;
-				width: 100%;
-				text-align: center;
-			}
-
-			.element {
-				width: 120px;
-				height: 160px;
-				box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
-				border: 1px solid rgba(127,255,255,0.25);
-				font-family: Helvetica, sans-serif;
-				text-align: center;
-				line-height: normal;
-				cursor: default;
-			}
-
-			.element:hover {
-				box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
-				border: 1px solid rgba(127,255,255,0.75);
-			}
-
-				.element .number {
-					position: absolute;
-					top: 20px;
-					right: 20px;
-					font-size: 12px;
-					color: rgba(127,255,255,0.75);
-				}
-
-				.element .symbol {
-					position: absolute;
-					top: 40px;
-					left: 0px;
-					right: 0px;
-					font-size: 60px;
-					font-weight: bold;
-					color: rgba(255,255,255,0.75);
-					text-shadow: 0 0 10px rgba(0,255,255,0.95);
-				}
-
-				.element .details {
-					position: absolute;
-					bottom: 15px;
-					left: 0px;
-					right: 0px;
-					font-size: 12px;
-					color: rgba(127,255,255,0.75);
-				}
-
-			button {
-				color: rgba(127,255,255,0.75);
-				background: transparent;
-				outline: 1px solid rgba(127,255,255,0.75);
-				border: 0px;
-				padding: 5px 10px;
-				cursor: pointer;
-			}
-
-			button:hover {
-				background-color: rgba(0,255,255,0.5);
-			}
-
-			button:active {
-				color: #000000;
-				background-color: rgba(0,255,255,0.75);
-			}
-		</style>
 	</head>
 	<body>
 
@@ -104,6 +25,18 @@
 				}
 			}
 		</script>
+		
+		<!--Script for popovers-->
+		<div popover="auto" id="elementPopover">
+			<div class="popover-text">
+				<h2 id="projectTitle">Project</h2>
+				<p id="projectText"></p>
+				
+				<button id="closeButton">Explore More</button>
+			</div>
+		</div>
+		
+		
 <!--Link to referenced code: https://threejs.org/examples/#css3d_periodictable -->
 		<script type="module">
 
@@ -115,28 +48,29 @@
 
 			const table = [
 			
-				'Fe', 'Iron', '55.845', 8, 4,
-				'Co', 'Cobalt', '58.933195', 9, 4,
-				'Ni', 'Nickel', '58.6934', 10, 4,
-				'Cu', 'Copper', '63.546', 11, 4,
-				'Zn', 'Zinc', '65.38', 12, 4,
+				'Project 1', 'Year', 'explore', 8, 4,
+				'Project 2', 'Year', 'explore', 9, 4,
+				'Project 3', 'Year', 'explore', 10, 4,
+				'Project 4', 'Year', 'explore', 11, 4,
+				'Project 5', 'Year', 'explore', 12, 4,
 				
-				'Ru', 'Ruthenium', '101.07', 8, 5,
-				'Rh', 'Rhodium', '102.9055', 9, 5,
-				'Pd', 'Palladium', '106.42', 10, 5,
-				'Ag', 'Silver', '107.8682', 11, 5,
-				'Cd', 'Cadmium', '112.411', 12, 5,
+				'Project 6', 'Year', 'explore', 8, 5,
+				'Project 7', 'Year', 'explore', 9, 5,
+				'Project 8', 'Year', 'explore', 10, 5,
+				'Project 9', 'Year', 'explore', 11, 5,
+				'Project 10', 'Year', 'explore', 12, 5,
 				
-				'Os', 'Osmium', '190.23', 8, 6,
-				'Ir', 'Iridium', '192.217', 9, 6,
-				'Pt', 'Platinum', '195.084', 10, 6,
-				'Au', 'Gold', '196.966569', 11, 6,
-				'Hg', 'Mercury', '200.59', 12, 6,
+				'Project 11', 'Year', 'explore', 8, 6,
+				'Project 12', 'Year', 'explore', 9, 6,
+				'Project 13', 'Year', 'explore', 10, 6,
+				'Project 14', 'Year', 'explore', 11, 6,
+				'Project 15', 'Year', 'explore', 12, 6,
 				
 			];
 
 			let camera, scene, renderer;
 			let controls;
+			
 
 			const objects = [];
 			const targets = { table: [], helix: []};
@@ -157,12 +91,13 @@
 
 					const element = document.createElement( 'div' );
 					element.className = 'element';
+					element.style.pointerEvents = 'auto';
 					element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
 
-					const number = document.createElement( 'div' );
-					number.className = 'number';
-					number.textContent = ( i / 5 ) + 1;
-					element.appendChild( number );
+					//const number = document.createElement( 'div' );
+					//number.className = 'number';
+					//number.textContent = ( i / 5 ) + 1;
+					//element.appendChild( number );
 
 					const symbol = document.createElement( 'div' );
 					symbol.className = 'symbol';
@@ -173,6 +108,38 @@
 					details.className = 'details';
 					details.innerHTML = table[ i + 1 ] + '<br>' + table[ i + 2 ];
 					element.appendChild( details );
+					
+					//Popover click
+					let startX = 0;
+let startY = 0;
+
+element.addEventListener('pointerdown', (event) => {
+
+    startX = event.clientX;
+    startY = event.clientY;
+
+});
+
+element.addEventListener('pointerup', (event) => {
+
+    const dx = event.clientX - startX;
+    const dy = event.clientY - startY;
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // treat as click if mouse barely moved
+    if (distance < 5) {
+
+        document.getElementById('projectTitle').textContent = table[i];
+
+        document.getElementById('projectText').textContent =
+            'Text: ' + table[i + 1];
+
+        document.getElementById('elementPopover').showPopover();
+
+    }
+
+});
 
 					const objectCSS = new CSS3DObject( element );
 					objectCSS.position.x = Math.random() * 4000 - 2000;
@@ -267,6 +234,8 @@
                 controls.cursorStyle = 'grab';
                 controls.maxPolarAngle = Math.PI / 2;
                 controls.minPolarAngle = Math.PI /2;
+			
+	
 
 				//const buttonTable = document.getElementById( 'table' );
 				//buttonTable.addEventListener( 'click', function () {
@@ -303,6 +272,10 @@
 				window.addEventListener( 'resize', onWindowResize );
 
 			}
+			
+			document.getElementById ('closeButton').addEventListener('click', ()=>{
+				document.getElementById('elementPopover').hidePopover();
+			 });
 
 			function transform( targets, duration ) {
 

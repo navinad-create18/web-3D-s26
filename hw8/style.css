@@ -22,8 +22,12 @@
         text-align: center;
         line-height: normal;
         cursor: pointer;
-        touch-action: none;
+        touch-action: manipulation;
     }
+
+#elementPopover {
+    z-index: 9999;
+}
 
     .element:hover {
         box-shadow: 1px 1px 12px rgba(0,255,255,0.75);
@@ -93,6 +97,10 @@
 }
 
 /*animated content inside popover*/
+.popover-text{
+    will-change: transform, opacity;
+}
+
 .popover-text{
     width: 500px;
     min-height:400px;

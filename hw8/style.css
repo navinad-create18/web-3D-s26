@@ -25,6 +25,7 @@
         cursor: pointer;
         touch-action: manipulation;
         user-select: none;
+        overflow: hidden;
     }
 
 #elementPopover {
@@ -48,13 +49,14 @@
 
         .element .symbol {
             position: absolute;
-            top: 40px;
-            left: 1px;
-            right: 1px;
-            font-size: 30px;
-            font-weight: bold;
-            color: rgba(255,255,255,0.75);
-            text-shadow: 0 0 10px rgba(0,255,255,0.95);
+            top: 5px;
+            left: 5px;
+            
+            width: 110px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            
         }
 
         .element .details {
@@ -106,6 +108,7 @@
 
     color: #18143d;
 }
+
 
 #projectTitle {
     font-size: 50px;

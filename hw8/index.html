@@ -30,7 +30,7 @@
 		<div popover="auto" id="elementPopover">
 			<div class="popover-text">
 				<h2 id="projectTitle">Project</h2>
-				<p id="projectText"></p>
+				<h1 id="projectText"></h1>
 				
 				<button id="closeButton">Explore More</button>
 			</div>
@@ -48,7 +48,7 @@
 
 			const table = [
 			
-				'Project 1', 'Year', 'explore', 8, 4,
+				'./assets/OvergrownRuins_CoverArt.png', 'Overgrown Ruins', '2026', 8, 4,
 				'Project 2', 'Year', 'explore', 9, 4,
 				'Project 3', 'Year', 'explore', 10, 4,
 				'Project 4', 'Year', 'explore', 11, 4,
@@ -99,9 +99,9 @@
 					//number.textContent = ( i / 5 ) + 1;
 					//element.appendChild( number );
 
-					const symbol = document.createElement( 'div' );
+					const symbol = document.createElement( 'img' );
 					symbol.className = 'symbol';
-					symbol.textContent = table[ i ];
+					symbol.src = table[ i ];
 					element.appendChild( symbol );
 
 					const details = document.createElement( 'div' );
@@ -109,37 +109,39 @@
 					details.innerHTML = table[ i + 1 ] + '<br>' + table[ i + 2 ];
 					element.appendChild( details );
 					
-					//Popover click
-					let startX = 0;
-let startY = 0;
+			//popover click
 
-element.addEventListener('pointerdown', (event) => {
+				let isDragging = false;
 
-    startX = event.clientX;
-    startY = event.clientY;
+		element.addEventListener('pointerdown', () => {
 
-});
+			isDragging = false;
 
-element.addEventListener('pointerup', (event) => {
+			controls.enabled = false;
 
-    const dx = event.clientX - startX;
-    const dy = event.clientY - startY;
+		});
 
-    const distance = Math.sqrt(dx * dx + dy * dy);
+		element.addEventListener('pointermove', () => {
 
-    // treat as click if mouse barely moved
-    if (distance < 5) {
+			isDragging = true;
 
-        document.getElementById('projectTitle').textContent = table[i];
+		});
 
-        document.getElementById('projectText').textContent =
-            'Text: ' + table[i + 1];
+		element.addEventListener('pointerup', () => {
 
-        document.getElementById('elementPopover').showPopover();
+			controls.enabled = true;
 
-    }
+			if (isDragging) return;
 
-});
+			document.getElementById('projectTitle').textContent = table[i];
+
+			document.getElementById('projectText').textContent =
+				'' + table[i + 1];
+
+			document.getElementById('elementPopover').showPopover();
+
+		});
+
 
 					const objectCSS = new CSS3DObject( element );
 					objectCSS.position.x = Math.random() * 4000 - 2000;
@@ -185,7 +187,7 @@ element.addEventListener('pointerup', (event) => {
 				for ( let i = 0, l = objects.length; i < l; i ++ ) {
 
 					const theta = i * 1.5 + Math.PI;
-					const y = 200;
+					const y = 100;
 
 					const object = new THREE.Object3D();
 

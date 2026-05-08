@@ -14,6 +14,7 @@
     }
 
     .element {
+        position: relative;
         width: 120px;
         height: 160px;
         box-shadow: 1px 1px 12px rgba(0,255,255,0.5);
@@ -23,6 +24,7 @@
         line-height: normal;
         cursor: pointer;
         touch-action: manipulation;
+        user-select: none;
     }
 
 #elementPopover {
@@ -86,41 +88,23 @@
 #elementPopover {
     border: none;
     padding: 0;
-    background:transparent;
+    background: transparent;
 }
 
-/*for styling popover element*/
 #elementPopover::backdrop {
-    background: #18143d;
-    opacity:0.8;
-    backdrop-filter: blur(5px);
+    background: rgba(0,0,0,0.7);
 }
 
-/*animated content inside popover*/
-.popover-text{
-    will-change: transform, opacity;
-}
-
-.popover-text{
+.popover-text {
     width: 500px;
-    min-height:400px;
+    min-height: 400px;
     padding: 20px;
-    background: #9791ce;
-    border: groove #8918d1;
-    border-radius: 10px;
-    color: #18143d;
-    
-    /*starting point of transition, popover hidden*/
-    transform: scale(0.8);
-    opacity: 0;
-    /*animation for transition for popover*/
-    transition: transform 0.35s ease, opacity 0.35s ease;
-}
 
-#elementPopover:popover-open .popover-text{
-    /*unhides popover*/
-    transform: scale(1);
-    opacity: 1;
+    background: #9791ce;
+    border: 2px solid #8918d1;
+    border-radius: 10px;
+
+    color: #18143d;
 }
 
 #projectTitle {

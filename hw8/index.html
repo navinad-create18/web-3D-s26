@@ -29,6 +29,7 @@
 		<!--Script for popovers-->
 		<div popover="auto" id="elementPopover">
 			<div class="popover-text">
+				<img id="projectImage" src="./assets/OvergrownRuins_CoverArt.png" alt="Skull in a Meadow"> 
 				<h2 id="projectTitle">Project</h2>
 				<h1 id="projectText"></h1>
 				
@@ -47,24 +48,52 @@
 			import { CSS3DRenderer, CSS3DObject } from './src/CSS3DRenderer.js';
 
 			const table = [
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'More details coming soon!', x: 8, y:4,},
 			
-				'./assets/OvergrownRuins_CoverArt.png', 'Overgrown Ruins', '2026', 8, 4,
-				'Project 2', 'Year', 'explore', 9, 4,
-				'Project 3', 'Year', 'explore', 10, 4,
-				'Project 4', 'Year', 'explore', 11, 4,
-				'Project 5', 'Year', 'explore', 12, 4,
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 9, y:4,},
 				
-				'Project 6', 'Year', 'explore', 8, 5,
-				'Project 7', 'Year', 'explore', 9, 5,
-				'Project 8', 'Year', 'explore', 10, 5,
-				'Project 9', 'Year', 'explore', 11, 5,
-				'Project 10', 'Year', 'explore', 12, 5,
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 10, y:4,},
 				
-				'Project 11', 'Year', 'explore', 8, 6,
-				'Project 12', 'Year', 'explore', 9, 6,
-				'Project 13', 'Year', 'explore', 10, 6,
-				'Project 14', 'Year', 'explore', 11, 6,
-				'Project 15', 'Year', 'explore', 12, 6,
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 11, y:4,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 12, y:4,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 8, y:5,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 9, y:5,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 10, y:5,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 11, y:5,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 12, y:5,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 8, y:6,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 9, y:6,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 10, y:6,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 11, y:6,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 12, y:6,},
+				
 				
 			];
 
@@ -87,7 +116,7 @@
 
 				// table
 
-				for ( let i = 0; i < table.length; i += 5 ) {
+				for ( let i = 0; i < table.length; i++ ) {
 
 					const element = document.createElement( 'div' );
 					element.className = 'element';
@@ -101,12 +130,12 @@
 
 					const symbol = document.createElement( 'img' );
 					symbol.className = 'symbol';
-					symbol.src = table[ i ];
+					symbol.src = table[ i ].Image;
 					element.appendChild( symbol );
 
 					const details = document.createElement( 'div' );
 					details.className = 'details';
-					details.innerHTML = table[ i + 1 ] + '<br>' + table[ i + 2 ];
+					details.innerHTML = table[i].Title + '<br>' + table[i].Year;
 					element.appendChild( details );
 					
 			//popover click
@@ -133,10 +162,13 @@
 
 			if (isDragging) return;
 
-			document.getElementById('projectTitle').textContent = table[i];
+			document.getElementById('projectTitle').textContent = table[i].popoverTitle;
 
 			document.getElementById('projectText').textContent =
-				'' + table[i + 1];
+				table[i].popoverText;
+			
+			//document.getElementById('projectText').textContent =
+			//	table[i].popoverImage;
 
 			document.getElementById('elementPopover').showPopover();
 
@@ -154,8 +186,8 @@
 					//
 
 					const object = new THREE.Object3D();
-					object.position.x = ( table[ i + 3 ] * 140 ) - 1330;
-					object.position.y = - ( table[ i + 4 ] * 180 ) + 990;
+					object.position.x = ( table[ i ].x * 140 ) - 1330;
+					object.position.y = - ( table[ i ].y * 180 ) + 990;
 
 					targets.table.push( object );
 

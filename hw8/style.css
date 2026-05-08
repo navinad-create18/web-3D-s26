@@ -1,4 +1,6 @@
-   body {
+   @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Jockey+One&display=swap');
+
+body {
         background-color: #060326;
     }
 
@@ -113,12 +115,25 @@
 #projectTitle {
     font-size: 50px;
     margin-bottom: 10px;
+    font-family: "Jockey One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     color: #18143d;
 }
 
 #projectText{
     font-size: 30px;
     margin-bottom: 15px;
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+}
+
+#projectImage{
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 /*closes Popover*/
 #closeButton{

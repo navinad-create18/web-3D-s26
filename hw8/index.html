@@ -8,7 +8,7 @@
 	</head>
 	<body>
 
-		<div id="info"><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> css3d - periodic table.</div>
+		<!--<div id="info"><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> css3d - periodic table.</div>-->
 		<div id="container"></div>
 		<div id="menu">
 			<!--<button id="table">TABLE</button>-->
@@ -18,6 +18,7 @@
 		</div>
 
 		<script type="importmap">
+		{
 				"imports": {
 					"three": "./src/three.module.js",
 					"three/addons/": "./jsm/"
@@ -28,7 +29,7 @@
 		<!--Script for popovers-->
 		<div popover="auto" id="elementPopover">
 			<div class="popover-text">
-				<img id="projectImage" src="./assets/OvergrownRuins_CoverArt.png" alt="Skull in a Meadow"> 
+				<!--<img id="projectImage" src="./assets/OvergrownRuins_CoverArt.png" alt="Skull in a Meadow"> -->
 				<h2 id="projectTitle">Project</h2>
 				<h1 id="projectText"></h1>
 				
@@ -48,52 +49,52 @@
 
 			const table = [
 				
-				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
-				 popoverTitle: 'Overgrown Ruins', popoverText:'More details coming soon!', x: 8, y:4,},
+				{Image: './assets/butterfly_ar_interactiveImage.png', Title: 'Butterfly AR', Year: '2026', 
+				 popoverTitle: 'Butterfly AR', popoverText:'More details coming soon!', x: 8, y:4,},
 			
-				//{Image: './assets/candle_render.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 9, y:4,},
-				//
-				//{Image: './assets/butterfly_ar_interactiveImage.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 10, y:4,},
-				//
-				//{Image: './assets/carts_render.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 11, y:4,},
-				//
-				//{Image: './assets/goldfish_sea.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 12, y:4,},
-				//
-				//{Image: './assets/grasshopper_Unreal.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 8, y:5,},
-				//
-				//{Image: './assets/herb_keeper.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 9, y:5,},
-				//
-				//{Image: './assets/last_polarbear.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 10, y:5,},
-				//
-				//{Image: './assets/laundry_day.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 11, y:5,},
-				//
-				//{Image: './assets/memory_tree.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 12, y:5,},
-				//
-				//{Image: './assets/orange_owl.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 8, y:6,},
-				//
-				//{Image: './assets/oven_cooking.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 9, y:6,},
-				//
-				//{Image: './assets/pear_party.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 10, y:6,},
-				//
-				//{Image: './assets/shiny_flamingo.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 11, y:6,},
-				//
-				//{Image: './assets/wood_totoro.png', Title: 'Overgrown Ruins', Year: '2026', 
-				// popoverTitle: 'Overgrown Ruins', popoverText:'Example Text', x: 12, y:6,},
-				//
-				//
+				{Image: './assets/candle_render.png', Title: 'Ornate Candle', Year: '2025', 
+				 popoverTitle: 'Ornate Candle', popoverText:'More details coming soon!', x: 9, y:4,},
+				
+				{Image: './assets/goldfish_sea.png', Title: 'Swimming Goldfish', Year: '2025', 
+				 popoverTitle: 'Swimming Goldfish', popoverText:'More details coming soon!', x: 10, y:4,},
+				
+				{Image: './assets/memory_tree.png', Title: 'Memory Tree', Year: '2026', 
+				 popoverTitle: 'Memory Tree', popoverText:'More details coming soon!', x: 11, y:4,},
+				
+				{Image: './assets/shiny_flamingo.png', Title: 'Flamingo Float', Year: '2026', 
+				 popoverTitle: 'Flamingo Float', popoverText:'More details coming soon!', x: 12, y:4,},
+				
+				{Image: './assets/grasshopper_Unreal.png', Title: 'Grasshopper', Year: '2025', 
+				 popoverTitle: 'Grasshopper', popoverText:'More details coming soon!', x: 8, y:5,},
+				
+				{Image: './assets/carts_render.png', Title: 'Shopping Carts', Year: '2025', 
+				 popoverTitle: 'Shopping Carts', popoverText:'More details coming soon!', x: 9, y:5,},
+				
+				{Image: './assets/last_polarbear.png', Title: 'The Last Polar Bear', Year: '2026', 
+				 popoverTitle: 'The Last Polar Bear', popoverText:'More details coming soon!', x: 10, y:5,},
+				
+				{Image: './assets/laundry_day.png', Title: 'Laundry Day', Year: '2026', 
+				 popoverTitle: 'Laundry Day', popoverText:'More details coming soon!', x: 11, y:5,},
+				
+				{Image: './assets/herb_keeper.png', Title: 'Herb Keeper', Year: '2025', 
+				 popoverTitle: 'Herb Keeper', popoverText:'More details coming soon!', x: 12, y:5,},
+				
+				{Image: './assets/orange_owl.png', Title: 'Low-Poly Owl', Year: '2024', 
+				 popoverTitle: 'Low-Poly Owl', popoverText:'More details coming soon!', x: 8, y:6,},
+				
+				{Image: './assets/oven_cooking.png', Title: 'Digital Oven', Year: '2026', 
+				 popoverTitle: 'Digital Oven', popoverText:'More details coming soon!', x: 9, y:6,},
+				
+				{Image: './assets/pear_party.png', Title: 'Pear Party', Year: '2026', 
+				 popoverTitle: 'Pear Party', popoverText:'More details coming soon!', x: 10, y:6,},
+				
+				{Image: './assets/OvergrownRuins_CoverArt.png', Title: 'Overgrown Ruins', Year: '2026', 
+				 popoverTitle: 'Overgrown Ruins', popoverText:'More details coming soon!', x: 11, y:6,},
+				
+				{Image: './assets/wood_totoro.png', Title: 'Nature Lantern', Year: '2024', 
+				 popoverTitle: 'Nature Lantern', popoverText:'More details coming soon!', x: 12, y:6,},
+				
+				
 			];
 
 			let camera, scene, renderer;
@@ -109,7 +110,7 @@
 			function init() {
 
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
-				camera.position.z = 2000;
+				camera.position.z = 1200;
 
 				scene = new THREE.Scene();
 
